@@ -5,7 +5,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.common.EventBusSubscriber;
 
+@EventBusSubscriber(modid = "touhou_little_maid")
 public class MaidWorkAnimationHelper {
 
     private static final int MOVE_COOLDOWN_TICKS = 20;
