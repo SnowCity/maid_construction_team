@@ -1,0 +1,144 @@
+com.snowcity.maid_construction_team
+│
+├── MaidConstructionTeam.java          ← 模组主类（事件、网络注册）
+│
+├── api
+│   ├── contract                       ← 契约加成系统
+│   │   ├── AutoContractEffect.java    (扫描注解)
+│   │   ├── ContractBonusManager.java  (激活/召回/清除)
+│   │   ├── ContractRoleRegistry.java  (分工注册、查询)
+│   │   ├── ContractScanner.java       (自动扫描分工效果)
+│   │   ├── DefaultBonusCollector.java (加成计算)
+│   │   ├── IBonusCollector.java
+│   │   ├── IContractEffect.java
+│   │   ├── IContractValidator.java
+│   │   ├── impl
+│   │   │   ├── BuilderEffect.java
+│   │   │   ├── EngineerEffect.java
+│   │   │   └── MaintenanceEffect.java
+│   │   └── validator
+│   │       └── MaxSameRoleValidator.java
+│   │
+│   └── labor                          ← 劳动力提供者接口
+│       ├── ILaborProvider.java
+│       ├── LaborInfo.java
+│       ├── LaborStatus.java
+│       ├── LaborProviderRegistry.java
+│       ├── PetTracker.java
+│       ├── PetList.java
+│       └── provider
+│           ├── ServantContractLaborProvider.java (已废弃，可删除)
+│           └── PetLaborProvider.java
+│
+├── client                             ← 客户端专用
+│   ├── cache
+│   │   └── ClientSessionCache.java    (缓存会话名)
+│   ├── event
+│   │   └── ClientRenderEvents.java    (旧高亮渲染，可重构)
+│   ├── key
+│   │   └── ModKeyMappings.java
+│   ├── preview                        ← 蓝图预览子系统
+│   │   ├── IPlacedPreviewRenderer.java
+│   │   ├── LineBoxPreviewRenderer.java
+│   │   ├── PlacementPreviewRenderer.java (监听渲染事件)
+│   │   ├── PlacementPreviewTool.java
+│   │   ├── PreviewInputHandler.java
+│   │   ├── PreviewManager.java
+│   │   ├── PreviewPlacementContext.java
+│   │   └── SchematicProjectionRenderer.java  ← 新的半透明投影预览
+│   └── screen                         ← GUI
+│       ├── BlueprintSelectionScreen.java
+│       ├── ContractBookScreen.java
+│       ├── ContractGuideScreen.java   (分工指南)
+│       ├── MaterialChecklistScreen.java (物资登记表管理)
+│       ├── RosterScreen.java          (花名册)
+│       ├── ScheduleScreen.java        (规划表)
+│       ├── SessionDetailScreen.java
+│       └── SessionSelectionScreen.java (会话选择)
+│
+├── component                          ← 数据组件
+│   ├── BlueprintData.java
+│   ├── ContractBookData.java
+│   ├── ContractData.java
+│   ├── MaterialChecklistData.java
+│   └── ServantContractData.java
+│
+├── config
+│   └── MaidConstructionTeamConfig.java
+│
+├── core
+│   ├── contract                       ← 已迁移至 api.contract，可清理
+│   ├── event
+│   │   ├── PlacementEventHandler.java
+│   │   └── ServantDeathHandler.java
+│   ├── init
+│   │   ├── ModAttachments.java
+│   │   ├── ModDataComponents.java
+│   │   ├── ModEntities.java
+│   │   └── ModItems.java
+│   ├── manager
+│   │   ├── PlacementSessionManager.java
+│   │   ├── PlayerSessionManager.java
+│   │   └── SessionStateMachine.java
+│   ├── schematic                      ← 蓝图放置核心
+│   │   ├── BlockInfo.java
+│   │   ├── EntityInfo.java
+│   │   ├── SchematicData.java
+│   │   ├── ISchematicReader.java
+│   │   ├── IMaterialProvider.java
+│   │   ├── IToolLackNotifier.java
+│   │   ├── PlacementContext.java
+│   │   ├── PlacementProgress.java
+│   │   ├── FeedbackMessage.java
+│   │   ├── ProgressivePlacer.java
+│   │   ├── MaterialShortageStrategy.java
+│   │   ├── IBlueprintPersistence.java
+│   │   ├── PlacementSession.java
+│   │   └── persistence
+│   │       └── SessionPersistenceHelper.java
+│   └── compat
+│       └── CreateSchematicReader.java
+│
+├── entity
+│   └── ServantEntity.java (已废弃)
+│
+├── item
+│   └── custom
+│       ├── BlueprintPaperItem.java
+│       ├── MaterialChecklistItem.java
+│       ├── ContractItem.java
+│       ├── ContractBookItem.java
+│       ├── RosterItem.java
+│       └── ScheduleItem.java
+│
+├── network                            ← 网络通信
+│   ├── handler
+│   │   ├── blueprint
+│   │   │   ├── ImportBlueprintServerHandler.java
+│   │   │   └── StartPlacementServerHandler.java
+│   │   ├── labor
+│   │   │   ├── DispatchLaborServerHandler.java
+│   │   │   ├── RecallLaborServerHandler.java
+│   │   │   ├── RequestLaborListServerHandler.java
+│   │   │   └── LaborListClientHandler.java
+│   │   └── session
+│   │       ├── RequestSessionsServerHandler.java
+│   │       ├── SessionsResponseClientHandler.java
+│   │       ├── ControlSessionServerHandler.java
+│   │       └── SessionStateChangedClientHandler.java
+│   └── payload
+│       ├── blueprint
+│       │   ├── ImportBlueprintPayload.java
+│       │   └── StartPlacementPayload.java
+│       ├── labor
+│       │   ├── DispatchLaborPayload.java
+│       │   ├── RecallLaborPayload.java
+│       │   ├── RequestLaborListPayload.java
+│       │   └── LaborListPayload.java
+│       ├── session
+│       │   ├── RequestSessionsPayload.java
+│       │   ├── SessionsResponsePayload.java
+│       │   ├── ControlSessionPayload.java
+│       │   └── SessionStateChangedPayload.java
+│       ├── ModifyChecklistPayload.java  ← 物资登记修改
+│       └── SyncHandItemPayload.java    ← 手部物品同步

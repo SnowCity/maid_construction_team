@@ -1,0 +1,22 @@
+MaidConstructionTeam (主类)
+ ├── 注册物品、组件、配置
+ ├── 网络包注册 (所有 Payload)
+ └── 客户端设置 → PreviewManager.setActiveRenderer(SchematicProjectionRenderer)
+
+劳动 & 契约系统
+ ├── api.contract (分工效果、加成)
+ ├── api.labor (劳动力提供者)
+ └── 网络 → Dispatch/RecallLaborPayload → Handler
+
+蓝图放置系统
+ ├── core.schematic (ProgressivePlacer, PlacementSession...)
+ └── client.preview (SchematicProjectionRenderer, PreviewInputHandler...)
+
+GUI
+ ├── ContractBookScreen, ContractGuideScreen, RosterScreen
+ ├── MaterialChecklistScreen
+ └── ScheduleScreen, SessionSelectionScreen
+
+网络
+ ├── 双向 Payload: Request/Response, Dispatch/Recall, ModifyChecklist, SyncHandItem
+ └── Handler (Server/Client)
