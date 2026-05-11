@@ -76,7 +76,7 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         Lighting.setupForEntityInInventory();
 
         for (BlockInfo info : schematic.getBlocks()) {
-            BlockPos localPos = info.getPos();
+            BlockPos localPos = info.pos();
             if (enableCulling && isSurrounded(localPos)) continue;
 
             poseStack.pushPose();
@@ -86,7 +86,7 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
                     localPos.getZ() - minPos.getZ());
             poseStack.translate(rel.x, rel.y, rel.z);
 
-            blockRenderer.renderBatched(info.getState(), localPos, renderWorld,
+            blockRenderer.renderBatched(info.state(), localPos, renderWorld,
                     poseStack, vertexConsumer, false, random, ModelData.EMPTY, null);
             poseStack.popPose();
         }
@@ -113,9 +113,9 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
 
         for (BlockInfo info : schematic.getBlocks()) {
-            BlockPos pos = info.getPos();
+            BlockPos pos = info.pos();
             blockSet.add(pos);
-            states.put(pos, info.getState());
+            states.put(pos, info.state());
             if (pos.getX() < minX) minX = pos.getX();
             if (pos.getY() < minY) minY = pos.getY();
             if (pos.getZ() < minZ) minZ = pos.getZ();

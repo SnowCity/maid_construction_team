@@ -31,7 +31,7 @@ public class LineBoxPreviewRenderer implements IPlacedPreviewRenderer {
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.LINES);
 
         for (BlockInfo info : schematic.getBlocks()) {
-            BlockPos localPos = info.getPos();
+            BlockPos localPos = info.pos();
             // 旋转并偏移到最终世界坐标
             BlockPos worldPos = transformPos(localPos, anchor, rotation);
 

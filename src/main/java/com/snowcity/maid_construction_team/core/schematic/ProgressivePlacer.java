@@ -7,7 +7,6 @@ import com.snowcity.maid_construction_team.api.contract.IContractValidator;
 import com.snowcity.maid_construction_team.api.contract.validator.MaxSameRoleValidator;
 import com.snowcity.maid_construction_team.core.manager.SessionStateMachine;
 import com.snowcity.maid_construction_team.core.util.MaidWorkAnimationHelper;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -18,7 +17,6 @@ import com.snowcity.maid_construction_team.item.MaidConstructionTeamItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -194,8 +192,8 @@ public class ProgressivePlacer {
             if (currentBlockIndex >= schematicData.getBlocks().size()) break;
 
             BlockInfo blockInfo = schematicData.getBlocks().get(currentBlockIndex);
-            currentWorldPos = transformBlockPos(blockInfo.getPos());
-            BlockState rotatedState = blockInfo.getState().rotate(targetLevel, currentWorldPos, rotation);
+            currentWorldPos = transformBlockPos(blockInfo.pos());
+            BlockState rotatedState = blockInfo.state().rotate(targetLevel, currentWorldPos, rotation);
             BlockState originalState = targetLevel.getBlockState(currentWorldPos);
 
             // 阶段 0：断点强制跳过
@@ -254,7 +252,7 @@ public class ProgressivePlacer {
             targetLevel.setBlock(currentWorldPos, rotatedState, flags);
 
             if (blockInfo.hasBlockEntity()) {
-                CompoundTag beTag = blockInfo.getBlockEntityData();
+                CompoundTag beTag = blockInfo.blockEntityData();
                 if (beTag != null) pendingBlockEntities.add(new BlockEntityInfo(currentWorldPos, beTag.copy()));
             }
 
@@ -295,8 +293,8 @@ public class ProgressivePlacer {
     private void placeEntities() {
         for (EntityInfo entityInfo : schematicData.getEntities()) {
             try {
-                Vec3 worldPos = transformEntityVec(entityInfo.getPos());
-                CompoundTag entityData = entityInfo.getEntityData().copy();
+                Vec3 worldPos = transformEntityVec(entityInfo.pos());
+                CompoundTag entityData = entityInfo.entityData().copy();
                 entityData.putDouble("x", worldPos.x);
                 entityData.putDouble("y", worldPos.y);
                 entityData.putDouble("z", worldPos.z);
@@ -434,10 +432,10 @@ public class ProgressivePlacer {
 
     public void onBlockChanged(BlockPos worldPos, BlockState actualState) {
         for (BlockInfo info : schematicData.getBlocks()) {
-            BlockPos expectedWorldPos = transformBlockPos(info.getPos());
+            BlockPos expectedWorldPos = transformBlockPos(info.pos());
             if (!expectedWorldPos.equals(worldPos)) continue;
 
-            BlockState requiredState = info.getState().rotate(targetLevel, worldPos, rotation);
+            BlockState requiredState = info.state().rotate(targetLevel, worldPos, rotation);
             if (!requiredState.equals(actualState)) break;
 
             // 防重复计数：只有新坐标才记录

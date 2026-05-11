@@ -3,16 +3,12 @@ package com.snowcity.maid_construction_team.core.schematic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class BlockInfo {
-    private final BlockPos pos;
-    private final BlockState state;
-    @Nullable
-    private final CompoundTag blockEntityData;
-
+public record BlockInfo(BlockPos pos, BlockState state, @Nullable CompoundTag blockEntityData) {
     /**
      * 完整构造函数。
      *
@@ -37,16 +33,9 @@ public class BlockInfo {
         this(pos, state, null);
     }
 
-    public BlockPos getPos() {
-        return pos;
-    }
-
-    public BlockState getState() {
-        return state;
-    }
-
+    @Override
     @Nullable
-    public CompoundTag getBlockEntityData() {
+    public CompoundTag blockEntityData() {
         // 返回副本以防止外部修改
         return blockEntityData != null ? blockEntityData.copy() : null;
     }
@@ -67,15 +56,10 @@ public class BlockInfo {
                 Objects.equals(blockEntityData, other.blockEntityData);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(pos, state, blockEntityData);
-    }
-
     // 返回一个代表该对象的、人类可读的字符串描述。
     // 用于调试和日志记录，方便快速定位
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "BlockInfo{" +
                 "pos=" + pos +
                 ", state=" + state +

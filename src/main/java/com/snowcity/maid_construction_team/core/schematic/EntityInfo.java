@@ -2,6 +2,7 @@ package com.snowcity.maid_construction_team.core.schematic;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -9,10 +10,7 @@ import java.util.Objects;
  * 描述蓝图中的单个实体及其初始状态。
  * 该类是不可变的。
  */
-public final class EntityInfo {
-    private final Vec3 pos;
-    private final CompoundTag entityData;
-
+public record EntityInfo(Vec3 pos, CompoundTag entityData) {
     /**
      * 构造函数。
      *
@@ -24,11 +22,8 @@ public final class EntityInfo {
         this.entityData = Objects.requireNonNull(entityData, "entityData cannot be null").copy();
     }
 
-    public Vec3 getPos() {
-        return pos;
-    }
-
-    public CompoundTag getEntityData() {
+    @Override
+    public CompoundTag entityData() {
         return entityData.copy();
     }
 
@@ -49,12 +44,7 @@ public final class EntityInfo {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(pos, entityData);
-    }
-
-    @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "EntityInfo{" +
                 "pos=" + pos +
                 ", type=" + getEntityTypeId() +

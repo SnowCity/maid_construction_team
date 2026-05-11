@@ -1,7 +1,6 @@
 package com.snowcity.maid_construction_team.network.handler.session;
 
 import com.snowcity.maid_construction_team.config.MaidConstructionTeamConfig;
-import com.snowcity.maid_construction_team.core.init.ModDataComponents;
 import com.snowcity.maid_construction_team.core.manager.PlacementSessionManager;
 import com.snowcity.maid_construction_team.core.manager.PlayerSessionManager;
 import com.snowcity.maid_construction_team.core.schematic.*;
@@ -83,7 +82,7 @@ public class RequestSessionsServerHandler {
         if (schematic != null) {
             Map<Block, Integer> totalRequired = new HashMap<>();
             for (BlockInfo info : schematic.getBlocks()) {
-                Block block = info.getState().getBlock();
+                Block block = info.state().getBlock();
                 totalRequired.merge(block, 1, Integer::sum);
             }
 
