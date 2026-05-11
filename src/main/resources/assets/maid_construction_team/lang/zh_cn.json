@@ -1,0 +1,42 @@
+{
+  "item.maid_construction_team.schedule": "规划表",
+  "item.maid_construction_team.moriya_iron_ring": "洩矢铁轮",
+  "item.maid_construction_team.surveying_tool": "测绘仪",
+  "item.maid_construction_team.blueprint_analyzer": "蓝图分析器",
+  "item.maid_construction_team.blueprint_paper": "蓝图纸",
+  "item.maid_construction_team.material_checklist": "物资登记表",
+  "item.maid_construction_team.servant_contract": "仆从契约",
+  "item.maid_construction_team.contract_book": "契约之书",
+  "item.maid_construction_team.roster": "花名册",
+
+  "itemGroup.maid_construction_team_tab": "狐闹重工",
+
+  "screen.schedule_gui": "规划表GUI",
+
+  "task.maid_construction_team.schematicannon_task": "蓝图大炮",
+  "task.maid_construction_team.schematicannon_task.desc": "能当作蓝图加农炮使用",
+  "task.maid_construction_team.construction_labourer_task": "建筑帮工",
+  "task.maid_construction_team.construction_labourer_task.desc": "团队协作, 工程队集结",
+
+  "maid_construction_team.configuration.build_speed": "建造速度",
+  "maid_construction_team.configuration.blocksPerTick": "女仆每次尝试建造时放置的方块数量",
+  "maid_construction_team.configuration.buildInterval": "女仆建造的间隔",
+
+  "maid_construction_team.configuration.session": "会话设置",
+  "maid_construction_team.configuration.enable_session_timeout": "是否启用建筑任务超时自动注销建造任务",
+  "maid_construction_team.configuration.session_timeout_minutes": "建筑任务最大可超时时间",
+
+  "key.category.maid_construction_team": "狐闹重工",
+  "key.maid_construction_team.preview_tool_switch": "预览：切换工具（按住+滚轮）",
+  "key.maid_construction_team.preview_execute": "预览：执行操作（按住+滚轮）",
+  "key.maid_construction_team.preview_confirm": "预览：确认放置",
+  "key.maid_construction_team.preview_cancel": "预览：取消预览",
+  "maid_construction_team.configuration.title": "Construction worker Configs",
+  "maid_construction_team.configuration.section.maid_construction_team.common.toml": "Construction worker Configs",
+  "maid_construction_team.configuration.section.maid_construction_team.common.toml.title": "Construction worker Configs",
+  "maid_construction_team.configuration.items": "Item List",
+  "maid_construction_team.configuration.logDirtBlock": "Log Dirt Block",
+  "maid_construction_team.configuration.magicNumberIntroduction": "Magic Number Text",
+  "maid_construction_team.configuration.magicNumber": "Magic Number"
+
+}

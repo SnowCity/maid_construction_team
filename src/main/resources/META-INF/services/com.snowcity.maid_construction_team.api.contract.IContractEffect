@@ -1,0 +1,3 @@
+com.snowcity.maid_construction_team.api.contract.impl.BuilderEffect
+com.snowcity.maid_construction_team.api.contract.impl.EngineerEffect
+com.snowcity.maid_construction_team.api.contract.impl.MaintenanceEffect

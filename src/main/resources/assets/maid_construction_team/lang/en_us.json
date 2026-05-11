@@ -1,0 +1,42 @@
+{
+  "item.maid_construction_team.schedule": "Schedule",
+  "item.maid_construction_team.moriya_iron_ring": "Divine Relic: Moriya's Iron Wheel",
+  "item.maid_construction_team.surveying_tool": "Surveying Tool",
+  "item.maid_construction_team.blueprint_analyzer": "Blueprint Analyzer",
+  "item.maid_construction_team.blueprint_paper": "Blueprint Paper",
+  "item.maid_construction_team.material_checklist": "Material Checklist",
+  "item.maid_construction_team.servant_contract": "servant contract",
+  "item.maid_construction_team.contract_book": "contract book",
+  "item.maid_construction_team.roster": "roster",
+
+  "itemGroup.maid_construction_team_tab": "MaidConstructionTeam Tab",
+
+  "screen.schedule_gui": "ScheduleGUI",
+
+  "task.maid_construction_team.schematicannon_task": "schematicannon",
+  "task.maid_construction_team.schematicannon_task.desc": "schematicannon work mod",
+  "task.maid_construction_team.construction_labourer_task": "construction labourer",
+  "task.maid_construction_team.construction_labourer_task.desc": "construction labourer work mod",
+
+  "maid_construction_team.configuration.build_speed": " The build speed Setting",
+  "maid_construction_team.configuration.blocksPerTick": "how place by tick",
+  "maid_construction_team.configuration.buildInterval": "how tick to place",
+
+  "maid_construction_team.configuration.session": "Session Setting",
+  "maid_construction_team.configuration.enable_session_timeout": "Is or no open Timeout Setting",
+  "maid_construction_team.configuration.session_timeout_minutes": "Timeout Setting",
+
+  "maid_construction_team.configuration.title": "Construction worker Configs",
+  "maid_construction_team.configuration.section.maid_construction_team.common.toml": "Construction worker Configs",
+  "maid_construction_team.configuration.section.maid_construction_team.common.toml.title": "Construction worker Configs",
+  "maid_construction_team.configuration.items": "Item List",
+  "maid_construction_team.configuration.logDirtBlock": "Log Dirt Block",
+  "maid_construction_team.configuration.magicNumberIntroduction": "Magic Number Text",
+  "maid_construction_team.configuration.magicNumber": "Magic Number",
+
+  "key.category.maid_construction_team": "狐闹重工",
+  "key.maid_construction_team.preview_tool_switch": "预览：切换工具（按住+滚轮）",
+  "key.maid_construction_team.preview_execute": "预览：执行操作（按住+滚轮）",
+  "key.maid_construction_team.preview_confirm": "预览：确认放置",
+  "key.maid_construction_team.preview_cancel": "预览：取消预览"
+}

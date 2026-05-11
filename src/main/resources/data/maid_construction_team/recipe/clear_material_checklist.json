@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "maid_construction_team:material_checklist"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "maid_construction_team:material_checklist",
+    "components": {
+      "!maid_construction_team:material_checklist": {}
+    }
+  }
+}
