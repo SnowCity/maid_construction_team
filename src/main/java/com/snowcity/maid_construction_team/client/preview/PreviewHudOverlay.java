@@ -9,7 +9,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
-import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +59,8 @@ public class PreviewHudOverlay {
         // 快捷键提示
         String switchKey = ModKeyMappings.PREVIEW_TOOL_SWITCH.get().getTranslatedKeyMessage().getString();
         String executeKey = ModKeyMappings.PREVIEW_EXECUTE.get().getTranslatedKeyMessage().getString();
-        String cancelKey = ModKeyMappings.PREVIEW_CANCEL.get().getTranslatedKeyMessage().getString();
         lines.add(Component.literal(switchKey + "+滚轮:切换工具  " + executeKey + "+滚轮:操作").withStyle(ChatFormatting.GRAY));
-        lines.add(Component.literal(executeKey + "+Shift+滚轮:5格步长  Enter:确认  " + cancelKey + ":取消").withStyle(ChatFormatting.GRAY));
+        lines.add(Component.literal(executeKey + "+Shift+滚轮:5格步长  Enter:确认  ").withStyle(ChatFormatting.GRAY));
 
         // 绘制
         for (Component line : lines) {

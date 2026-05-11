@@ -1,6 +1,5 @@
 package com.snowcity.maid_construction_team.client.screen;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.snowcity.maid_construction_team.network.payload.blueprint.ImportBlueprintPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
