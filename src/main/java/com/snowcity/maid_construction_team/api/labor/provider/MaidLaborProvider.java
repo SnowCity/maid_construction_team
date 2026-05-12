@@ -64,7 +64,6 @@ public class MaidLaborProvider implements ILaborProvider {
         if (entity instanceof EntityMaid maid) {
             if (maid.getOwnerUUID() != null && maid.getOwnerUUID().equals(player.getUUID())) {
                 session.addParticipant(laborId);
-                LOGGER.debug("[MaidLabor] Dispatched maid {}", laborId);
             }
         }
         return false;
@@ -77,7 +76,6 @@ public class MaidLaborProvider implements ILaborProvider {
         for (PlacementSession session : mgr.getActiveSessions()) {
             if (session.getParticipantUuids().contains(laborId)) {
                 session.removeParticipant(laborId);
-                LOGGER.debug("[MaidLabor] Recalled maid {}", laborId);
             }
         }
         return false;

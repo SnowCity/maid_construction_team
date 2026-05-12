@@ -34,21 +34,18 @@ public class ContractBonusManager {
     public static boolean activate(UUID contractId, PlacementSession session, Player player) {
         ServantContractData contractData = findContractData(player, contractId);
         if (contractData == null) {
-            LOGGER.warn("[Activate] Contract not found for contractId: {}", contractId);
             return false;
         }
 
         // 加入会话的加成列表
         boolean added = session.addContractBonus(contractId);
         if (!added) {
-            LOGGER.info("[Activate] Contract {} already active in session {}", contractId, session.getSessionId());
             return false;
         }
 
         // 更新契约的派遣状态（复用 dispatchedSessionId 标识激活的会话）
         updateContractDispatched(player, contractId, session.getSessionId());
 
-        LOGGER.info("[Activate] Contract {} activated for session {}", contractId, session.getSessionId());
         return true;
     }
 
@@ -74,9 +71,7 @@ public class ContractBonusManager {
         if (removed) {
             // 清除契约的派遣标记
             updateContractDispatched(player, contractId, null);
-            LOGGER.info("[Deactivate] Contract {} deactivated from all sessions", contractId);
         } else {
-            LOGGER.warn("[Deactivate] Contract {} not found in any active session", contractId);
         }
         return removed;
     }

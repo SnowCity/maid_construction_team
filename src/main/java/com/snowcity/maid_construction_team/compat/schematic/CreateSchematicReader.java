@@ -91,7 +91,6 @@ public class CreateSchematicReader implements ISchematicReader {
             // 获取位置
             ListTag posTag = blockTag.getList("pos", Tag.TAG_INT);
             if (posTag.size() < 3) {
-                LOGGER.warn("Block entry missing 'pos' tag, skipping");
                 continue;
             }
             BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
@@ -99,7 +98,6 @@ public class CreateSchematicReader implements ISchematicReader {
             // 获取调色板索引
             int stateIndex = blockTag.getInt("state");
             if (stateIndex < 0 || stateIndex >= palette.size()) {
-                LOGGER.warn("Invalid palette index {} at position {}, skipping", stateIndex, pos);
                 continue;
             }
             BlockState state = palette.get(stateIndex);
@@ -121,13 +119,11 @@ public class CreateSchematicReader implements ISchematicReader {
     public static void parseAndAddEntities(ListTag entitiesTag, SchematicData.Builder builder) {
         for (Tag tag : entitiesTag) {
             if (!(tag instanceof CompoundTag entityData)) {
-                LOGGER.warn("Non-compound tag in entities list, skipping.");
                 continue;
             }
 
             Vec3 pos = extractEntityPos(entityData);
             if (pos == null) {
-                LOGGER.warn("Entity missing position data, skipping: {}", entityData);
                 continue;
             }
 

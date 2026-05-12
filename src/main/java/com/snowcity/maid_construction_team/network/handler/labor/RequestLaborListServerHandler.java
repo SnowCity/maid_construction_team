@@ -20,7 +20,6 @@ public class RequestLaborListServerHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestLaborListServerHandler.class);
 
     public static void handle(final RequestLaborListPayload payload, final IPayloadContext context) {
-        LOGGER.info("[RosterServer] Received request from {}", context.player().getName().getString());
         context.enqueueWork(() -> {
             ServerPlayer player = (ServerPlayer) context.player();
             List<LaborInfo> allLabor = new ArrayList<>();

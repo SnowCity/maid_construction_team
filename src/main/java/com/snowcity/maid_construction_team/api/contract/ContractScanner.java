@@ -28,7 +28,6 @@ public class ContractScanner {
     public static void scanAndRegister() {
         ModContainer mod = ModList.get().getModContainerById(MaidConstructionTeam.MOD_ID).orElse(null);
         if (mod == null) {
-            LOGGER.warn("Cannot find mod container for {}", MaidConstructionTeam.MOD_ID);
             return;
         }
 
