@@ -81,6 +81,25 @@ public class MaidConstructionTeamConfig {
             BUILDER.comment("仆从死亡时是否消耗对应的契约物品。若开启，契约将被永久摧毁；若关闭，契约恢复为空闲状态。")
                     .define("consumeContractOnServantDeath", false);
 
+    // --- 预览相关 ---
+    public static final ModConfigSpec.IntValue PREVIEW_FRAME_RED = BUILDER
+            .comment("预览边框红色分量 (0-255)")
+            .defineInRange("previewFrameRed", 255, 0, 255);
+    public static final ModConfigSpec.IntValue PREVIEW_FRAME_GREEN = BUILDER
+            .comment("预览边框绿色分量 (0-255)")
+            .defineInRange("previewFrameGreen", 105, 0, 255);
+    public static final ModConfigSpec.IntValue PREVIEW_FRAME_BLUE = BUILDER
+            .comment("预览边框蓝色分量 (0-255)")
+            .defineInRange("previewFrameBlue", 180, 0, 255);
+    public static final ModConfigSpec.BooleanValue PREVIEW_DEPTH_TEST_ENABLED = BUILDER
+            .comment("预览时是否默认开启深度测试")
+            .define("previewDepthTestEnabled", false);
+    public static final ModConfigSpec.IntValue PREVIEW_STEP_LARGE = BUILDER
+            .comment("预览快速移动时的步长（格）")
+            .defineInRange("previewStepLarge", 10, 1, 100);
+
+
+
     // 构建最终的配置规格，供注册使用
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -162,6 +181,13 @@ public class MaidConstructionTeamConfig {
     public boolean isConsumeContractOnServantDeath() {
         return CONSUME_CONTRACT_ON_SERVANT_DEATH.get();
     }
+
+    // getter 方法
+    public int getPreviewFrameRed() { return PREVIEW_FRAME_RED.get(); }
+    public int getPreviewFrameGreen() { return PREVIEW_FRAME_GREEN.get(); }
+    public int getPreviewFrameBlue() { return PREVIEW_FRAME_BLUE.get(); }
+    public boolean isPreviewDepthTestEnabled() { return PREVIEW_DEPTH_TEST_ENABLED.get(); }
+    public int getPreviewStepLarge() { return PREVIEW_STEP_LARGE.get(); }
 
     // ======================= 公开的 Setter 方法 =======================
 

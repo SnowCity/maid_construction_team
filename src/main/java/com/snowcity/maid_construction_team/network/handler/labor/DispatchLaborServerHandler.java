@@ -7,7 +7,13 @@ import com.snowcity.maid_construction_team.core.manager.PlacementSessionManager;
 import com.snowcity.maid_construction_team.core.manager.PlayerSessionManager;
 import com.snowcity.maid_construction_team.core.schematic.PlacementSession;
 import com.snowcity.maid_construction_team.network.payload.labor.DispatchLaborPayload;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
@@ -28,6 +34,10 @@ public class DispatchLaborServerHandler {
             if ("servant_contract".equals(payload.providerId())) {
                 // 契约加成激活
                 ContractBonusManager.activate(payload.laborId(), session, player);
+
+                playSound(player, "ui.button.click", 1.0f, 1.0f);
+                playSound(player, "entity.player.levelup", 0.5f, 1.2f);
+
             } else {
                 // 劳动力派遣
                 ILaborProvider provider = LaborProviderRegistry.getProvider(payload.providerId()).orElse(null);
@@ -36,5 +46,12 @@ public class DispatchLaborServerHandler {
                 }
             }
         });
+    }
+
+    private static void playSound(Player player, String soundId, float volume, float pitch) {
+        SoundEvent sound = BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.withDefaultNamespace(soundId));
+        if (sound != null) {
+            player.playNotifySound(sound, SoundSource.PLAYERS, volume, pitch);
+        }
     }
 }

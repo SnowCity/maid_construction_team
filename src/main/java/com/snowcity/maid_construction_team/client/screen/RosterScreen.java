@@ -450,19 +450,6 @@ public class RosterScreen extends Screen {
         return super.charTyped(codePoint, modifiers);
     }
 
-//    @Override
-//    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-//        if (searchBox.isFocused() && !isMouseOverSearchBox(mouseX, mouseY)) {
-//            searchBox.setFocused(false);
-//        }
-//        return super.mouseClicked(mouseX, mouseY, button);
-//    }
-
-    private boolean isMouseOverSearchBox(double mouseX, double mouseY) {
-        return mouseX >= searchBox.getX() && mouseX <= searchBox.getX() + searchBox.getWidth()
-                && mouseY >= searchBox.getY() && mouseY <= searchBox.getY() + searchBox.getHeight();
-    }
-
     @Override
     public void onClose() {
         dispatchButtons.values().forEach(this::removeWidget);

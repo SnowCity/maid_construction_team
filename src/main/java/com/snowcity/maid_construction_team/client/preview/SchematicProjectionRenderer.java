@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -22,16 +22,11 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import java.util.*;
 
 /**
- * 可靠的即时渲染蓝图预览器。
+ * 蓝图投影预览渲染器（完全对齐实际放置方案）
  * <p>
- * 功能：
- * <ul>
- *   <li>半透明方块渲染（原版 batch 方式）</li>
- *   <li>内部方块剔除（可选）</li>
- *   <li>恒定亮度，不受环境光影响</li>
- *   <li>粉色边框标注范围</li>
- *   <li>可调深度测试</li>
- * </ul>
+ * 核心思路：与 {@code ProgressivePlacer.transformBlockPos} 保持绝对一致的坐标计算，
+ * 即“先旋转局部坐标，再平移到世界锚点”。边框则通过遍历所有方块的世界坐标动态计算，
+ * 确保与实体方块完全贴合。
  */
 public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
 
@@ -42,17 +37,11 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
 
     private int lastBlocksHash = 0;
     private Set<BlockPos> blockSet = Collections.emptySet();
-    private Map<BlockPos, BlockState> blueprintStates = Collections.emptyMap();
-    private BlockPos minPos = BlockPos.ZERO;
-    private AABB localBoundingBox = null;
+    // 边框缓存（根据当前变换动态计算）
+    private AABB worldBoundingBox = null;
 
-    public void setDepthTestEnabled(boolean enabled) {
-        this.depthTestEnabled = enabled;
-    }
-
-    public void setEnableCulling(boolean enable) {
-        this.enableCulling = enable;
-    }
+    public void setDepthTestEnabled(boolean enabled) { this.depthTestEnabled = enabled; }
+    public void setEnableCulling(boolean enable) { this.enableCulling = enable; }
 
     @Override
     public void render(GuiGraphics graphics, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource,
@@ -60,7 +49,7 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         SchematicData schematic = context.getSchematicData();
         if (schematic.getBlocks().isEmpty()) return;
 
-        // 如果方块列表发生变化，重建缓存
+        // 避免重复重建缓存（蓝图数据未改变）
         int currentHash = schematic.getBlocks().hashCode();
         if (currentHash != lastBlocksHash) {
             rebuildCache(schematic);
@@ -72,81 +61,83 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         ClientLevel clientLevel = mc.level;
         if (clientLevel == null) return;
 
+        // 获取当前的锚点、偏移和旋转（与放置时完全一致）
         BlockPos anchor = context.getAnchor();
         Vec3 offset = context.getTranslationOffset();
         Rotation rotation = context.getRotation();
+
+        // 将浮点偏移应用到整数锚点上，构成最终的世界锚点
         Vec3 worldAnchor = Vec3.atLowerCornerOf(anchor).add(offset);
 
-        poseStack.pushPose();
-        poseStack.translate(worldAnchor.x, worldAnchor.y, worldAnchor.z);
-        applyRotation(poseStack, rotation);
-
-        // 准备渲染
+        // 准备渲染资源
         BlockRenderDispatcher blockRenderer = mc.getBlockRenderer();
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucent());
         RandomSource random = RandomSource.create();
 
-        // 恒定亮度
+        // 恒定亮度，确保任何环境下都清晰可见
         Lighting.setupForEntityInInventory();
-        if (!depthTestEnabled) {
-            RenderSystem.disableDepthTest();
-        }
+        if (!depthTestEnabled) RenderSystem.disableDepthTest();
 
-        // 逐块渲染（应用内部剔除）
+        // 临时变量用于动态计算世界边框
+        int minWorldX = Integer.MAX_VALUE, minWorldY = Integer.MAX_VALUE, minWorldZ = Integer.MAX_VALUE;
+        int maxWorldX = Integer.MIN_VALUE, maxWorldY = Integer.MIN_VALUE, maxWorldZ = Integer.MIN_VALUE;
+
+        // ---------- 核心：与 ProgressivePlacer.transformBlockPos 完全相同的坐标计算 ----------
         for (BlockInfo info : schematic.getBlocks()) {
             BlockPos localPos = info.pos();
             if (enableCulling && isSurrounded(localPos)) continue;
 
-            poseStack.pushPose();
-            Vec3 rel = new Vec3(localPos.getX() - minPos.getX(),
-                    localPos.getY() - minPos.getY(),
-                    localPos.getZ() - minPos.getZ());
-            poseStack.translate(rel.x, rel.y, rel.z);
+            // ★ 步骤1：对蓝图局部坐标应用旋转（原地旋转）
+            BlockPos rotatedPos = localPos.rotate(rotation);
+            // ★ 步骤2：平移到世界锚点
+            BlockPos worldPos = anchor.offset(rotatedPos);
+            // 应用微调偏移（offset 已经在 worldAnchor 中体现，但为了保持一致性，这里也加上）
+            // 实际上 worldAnchor 已经包含了 offset，但如果我们直接使用 anchor.offset() 并不包含 offset，
+            // 所以需要手动加上。正确的做法是将 offset 也纳入世界坐标计算。
+            double finalX = worldPos.getX() + offset.x;
+            double finalY = worldPos.getY() + offset.y;
+            double finalZ = worldPos.getZ() + offset.z;
 
+            // 更新边框范围
+            if (finalX < minWorldX) minWorldX = (int) Math.floor(finalX);
+            if (finalY < minWorldY) minWorldY = (int) Math.floor(finalY);
+            if (finalZ < minWorldZ) minWorldZ = (int) Math.floor(finalZ);
+            if (finalX + 1 > maxWorldX) maxWorldX = (int) Math.ceil(finalX + 1);
+            if (finalY + 1 > maxWorldY) maxWorldY = (int) Math.ceil(finalY + 1);
+            if (finalZ + 1 > maxWorldZ) maxWorldZ = (int) Math.ceil(finalZ + 1);
+
+            // 绘制方块
+            poseStack.pushPose();
+            poseStack.translate(finalX, finalY, finalZ);
             blockRenderer.renderBatched(info.state(), localPos, clientLevel,
                     poseStack, vertexConsumer, false, random, ModelData.EMPTY, null);
             poseStack.popPose();
         }
 
-        if (!depthTestEnabled) {
-            RenderSystem.enableDepthTest();
-        }
+        if (!depthTestEnabled) RenderSystem.enableDepthTest();
         Lighting.setupFor3DItems();
 
-        // 绘制粉色边框（始终最前，忽略深度）
-        if (localBoundingBox != null) {
+        // 绘制动态计算的粉色边框
+        if (minWorldX <= maxWorldX) {
+            AABB worldBox = new AABB(minWorldX, minWorldY, minWorldZ, maxWorldX, maxWorldY, maxWorldZ);
             VertexConsumer lineConsumer = bufferSource.getBuffer(RenderType.lines());
             RenderSystem.disableDepthTest();
-            LevelRenderer.renderLineBox(poseStack, lineConsumer, localBoundingBox, FRAME_RED, FRAME_GREEN, FRAME_BLUE, 1.0f);
+            LevelRenderer.renderLineBox(poseStack, lineConsumer, worldBox, FRAME_RED, FRAME_GREEN, FRAME_BLUE, 1.0f);
             RenderSystem.enableDepthTest();
         }
 
-        poseStack.popPose();
+        // 注意：我们没有再对 poseStack 进行全局平移和旋转，因为每个方块都已经计算好了绝对世界坐标
     }
 
+    /** 重建方块集合（用于快速剔除） */
     private void rebuildCache(SchematicData schematic) {
         blockSet = new HashSet<>();
-        Map<BlockPos, BlockState> states = new HashMap<>();
-        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
-
         for (BlockInfo info : schematic.getBlocks()) {
-            BlockPos pos = info.pos();
-            blockSet.add(pos);
-            states.put(pos, info.state());
-            if (pos.getX() < minX) minX = pos.getX();
-            if (pos.getY() < minY) minY = pos.getY();
-            if (pos.getZ() < minZ) minZ = pos.getZ();
-            if (pos.getX() > maxX) maxX = pos.getX();
-            if (pos.getY() > maxY) maxY = pos.getY();
-            if (pos.getZ() > maxZ) maxZ = pos.getZ();
+            blockSet.add(info.pos());
         }
-
-        blueprintStates = states;
-        minPos = new BlockPos(minX, minY, minZ);
-        localBoundingBox = new AABB(0, 0, 0, maxX - minX + 1, maxY - minY + 1, maxZ - minZ + 1);
     }
 
+    /** 判断一个方块是否六个面都被蓝图其他方块包围（内部剔除） */
     private boolean isSurrounded(BlockPos pos) {
         for (Direction dir : Direction.values()) {
             if (!blockSet.contains(pos.relative(dir))) return false;
@@ -154,12 +145,5 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         return true;
     }
 
-    private void applyRotation(PoseStack ps, Rotation rotation) {
-        switch (rotation) {
-            case CLOCKWISE_90 -> ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-90));
-            case CLOCKWISE_180 -> ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(180));
-            case COUNTERCLOCKWISE_90 -> ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(90));
-            default -> {}
-        }
-    }
+    public boolean isPauseScreen() { return false; }
 }

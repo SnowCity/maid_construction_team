@@ -62,7 +62,9 @@ public class BlueprintPaperItem extends Item {
                     player.sendSystemMessage(Component.literal("请指向一个方块来确定放置位置"));
                     return InteractionResultHolder.fail(stack);
                 }
-                BlockPos anchor = ((BlockHitResult) hit).getBlockPos();
+
+                BlockHitResult blockHit = (BlockHitResult) hit;
+                BlockPos anchor = blockHit.getBlockPos().relative(blockHit.getDirection());
 
                 // 根据玩家朝向计算初始旋转
                 Rotation rotation = getRotationFromPlayer(player);

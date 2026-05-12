@@ -95,9 +95,8 @@ public class PreviewPlacementContext {
 
     /** 获取最终渲染/放置时使用的世界锚点（考虑偏移） */
     public BlockPos getFinalAnchor() {
-        Vec3 baseCenter = Vec3.atBottomCenterOf(anchor);
-        Vec3 finalPos = baseCenter.add(translationOffset);
-        return BlockPos.containing(finalPos.x, finalPos.y, finalPos.z);
+        // 返回原始的整数锚点（用于放置时）
+        return anchor;
     }
 
     /**

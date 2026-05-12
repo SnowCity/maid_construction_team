@@ -8,8 +8,12 @@ import com.snowcity.maid_construction_team.core.schematic.*;
 import com.snowcity.maid_construction_team.core.schematic.persistence.SessionPersistenceHelper;
 import com.snowcity.maid_construction_team.network.payload.session.SessionStateChangedPayload;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -194,6 +198,10 @@ public class PlacementSessionManager {
 
         // 发送状态变更通知
         notifyStateChange(sessionId, SessionStateMachine.State.COMPLETED);
+
+        // 播放音效
+        playSound(player, "ui.button.click", 1.0f, 1.0f);
+        playSound(player, "entity.player.levelup", 0.5f, 1.2f);
     }
 
     // ---------- 手动暂停/恢复 ----------
@@ -213,6 +221,10 @@ public class PlacementSessionManager {
         session.addFeedback(new FeedbackMessage(FeedbackMessage.Type.TASK_PAUSED_MANUALLY, "任务已手动暂停"));
         workSet.remove(sessionId);
         notifyStateChange(sessionId, SessionStateMachine.State.PAUSED);
+
+        playSound(player, "ui.button.click", 1.0f, 1.0f);
+        playSound(player, "entity.player.levelup", 0.5f, 1.2f);
+
         return true;
     }
 
@@ -361,6 +373,13 @@ public class PlacementSessionManager {
         if (player instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(serverPlayer,
                     new SessionStateChangedPayload(sessionId, newState));
+        }
+    }
+
+    private static void playSound(Player player, String soundId, float volume, float pitch) {
+        SoundEvent sound = BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.withDefaultNamespace(soundId));
+        if (sound != null) {
+            player.playNotifySound(sound, SoundSource.PLAYERS, volume, pitch);
         }
     }
 }
