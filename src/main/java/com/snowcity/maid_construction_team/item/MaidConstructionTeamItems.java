@@ -18,9 +18,6 @@ public class MaidConstructionTeamItems {
     // 洩矢铁轮 Moriya Iron Ring
     public static final DeferredItem<Item> MORIYA_IRON_RING =
             ITEMS.register("moriya_iron_ring", () -> new MoriyaIronRingItem(new Item.Properties()));
-    // 测绘仪 Surveying Tool
-    public static final DeferredItem<Item> SURVEYING_TOOL =
-            ITEMS.register("surveying_tool", () -> new SurveyingToolItem(new Item.Properties()));
     // 物资登记表 material_checklist
     public static final DeferredItem<Item> MATERIAL_CHECKLIST =
             ITEMS.register("material_checklist", () -> new MaterialChecklistItem(new Item.Properties()));

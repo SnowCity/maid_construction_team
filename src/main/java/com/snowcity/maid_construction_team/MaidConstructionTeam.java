@@ -31,13 +31,10 @@ import com.snowcity.maid_construction_team.network.payload.session.ControlSessio
 import com.snowcity.maid_construction_team.network.payload.session.RequestSessionsPayload;
 import com.snowcity.maid_construction_team.network.payload.session.SessionStateChangedPayload;
 import com.snowcity.maid_construction_team.network.payload.session.SessionsResponsePayload;
-import com.snowcity.maid_construction_team.old.command.SurveyingCommand;
 import com.snowcity.maid_construction_team.config.MaidConstructionTeamConfig;
 import com.snowcity.maid_construction_team.core.init.ModDataComponents;
 import com.snowcity.maid_construction_team.item.MaidConstructionTeamCreativeModeTabs;
 import com.snowcity.maid_construction_team.item.MaidConstructionTeamItems;
-import com.snowcity.maid_construction_team.old.config.MaidBuildConfig;
-import com.snowcity.maid_construction_team.old.network.MaidDispatchPayload;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -87,9 +84,9 @@ public class MaidConstructionTeam {
         modEventBus.addListener(this::addCreative);
 
         // 配置文件路径
-        modContainer.registerConfig(
-                ModConfig.Type.COMMON, MaidBuildConfig.SPEC, "maid_construction_team/old_maid_construction_team.toml"
-        );
+//        modContainer.registerConfig(
+//                ModConfig.Type.COMMON, MaidBuildConfig.SPEC, "maid_construction_team/old_maid_construction_team.toml"
+//        );
 
         modContainer.registerConfig(
                 ModConfig.Type.COMMON, MaidConstructionTeamConfig.SPEC, "maid_construction_team/maid_construction_team.toml"
@@ -116,12 +113,6 @@ public class MaidConstructionTeam {
     // 网络数据包
     private void registerNetworking(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(MOD_ID);
-
-        registrar.playToServer(
-                MaidDispatchPayload.TYPE,
-                MaidDispatchPayload.CODEC,
-                MaidDispatchPayload::handle
-        );
 
         registrar.playToServer(RequestSessionsPayload.TYPE, RequestSessionsPayload.STREAM_CODEC, RequestSessionsServerHandler::handle);
         registrar.playToClient(SessionsResponsePayload.TYPE, SessionsResponsePayload.STREAM_CODEC, SessionsResponseClientHandler::handle);
@@ -152,8 +143,5 @@ public class MaidConstructionTeam {
     private void registerCommands(RegisterCommandsEvent event) {
 
         ConstructionStatusCommand.register(event.getDispatcher());
-
-        // 已废弃
-        SurveyingCommand.register(event.getDispatcher());
     }
 }

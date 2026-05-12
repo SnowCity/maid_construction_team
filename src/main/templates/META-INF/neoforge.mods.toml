@@ -6,13 +6,15 @@
 
 # The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
 modLoader="javafml" #mandatory
+loaderVersion = "[4,)"
 
 # A version range to match for said mod loader - for regular FML @Mod it will be the FML version. This is currently 2.
-loaderVersion="${loader_version_range}" #mandatory
+#loaderVersion="${loader_version_range}" #mandatory
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license="${mod_license}"
+#license="${mod_license}"
+license = "MIT"
 
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
@@ -24,7 +26,8 @@ license="${mod_license}"
 modId="${mod_id}" #mandatory
 
 # The version number of the mod
-version="${mod_version}" #mandatory
+#version="${mod_version}" #mandatory
+version = "1.0.0"
 
 # A display name for the mod
 displayName="${mod_name}" #mandatory
@@ -45,14 +48,7 @@ displayName="${mod_name}" #mandatory
 authors="snowcity"
 
 # The description text for the mod (multi line!) (#mandatory)
-description='''
-让车万女仆能够使用Create蓝图进行自动建造的附属模组！
-特性：
-- 女仆自动建造蓝图指定的方块
-- 支持材料消耗、工具使用、方块挖掘
-- 可配置建造速度、超时时间
-- 兼容Create 6.0.6+ (1.21.1)
-'''
+description ='''蓝图建造系统，为车万女仆提供建筑能力，支持机械动力蓝图。'''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
 [[mixins]]
@@ -98,3 +94,24 @@ config="${mod_id}.mixins.json"
 # stop your mod loading on the server for example.
 #[features.${mod_id}]
 #openGLVersion="[3.2,)"
+
+# 依赖部分
+[[dependencies.maid_construction_team]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21.1]"   # 仅限 1.21.1
+
+[[dependencies.maid_construction_team]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[21.1.219,)"  # NeoForge 构建版本
+
+[[dependencies.maid_construction_team]]
+modId = "touhou_little_maid"
+mandatory = true
+versionRange = "[1.5.0,)"     # 根据你实际使用的车万女仆版本调整
+
+[[dependencies.maid_construction_team]]
+modId = "create"
+mandatory = false
+versionRange = "[6.0.6,)"     # 机械动力版本要求

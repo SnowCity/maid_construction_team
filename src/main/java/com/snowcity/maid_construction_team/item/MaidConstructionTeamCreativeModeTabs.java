@@ -23,7 +23,6 @@ public class MaidConstructionTeamCreativeModeTabs {
                         // 需要在这个单开的创造物品栏里显示的物品
                         output.accept(MaidConstructionTeamItems.SCHEDULE);
                         output.accept(MaidConstructionTeamItems.MORIYA_IRON_RING);
-                        output.accept(MaidConstructionTeamItems.SURVEYING_TOOL);
                         output.accept(MaidConstructionTeamItems.MATERIAL_CHECKLIST);
                         output.accept(MaidConstructionTeamItems.BLUEPRINT_PAPER);
                         output.accept(MaidConstructionTeamItems.SERVANT_CONTRACT);

@@ -50,8 +50,6 @@ public class SessionDetailScreen extends Screen {
     private Button pauseResumeBtn;
     private Button strategyBtn;
 
-    private Map<Block, Integer> cachedMaterials;
-
     /**
      * @param detail 服务端返回的会话详情数据
      */
@@ -343,7 +341,6 @@ public class SessionDetailScreen extends Screen {
 
     // 接收服务端返回的材料数据
     public void onMaterialListReceived(Map<Block, Integer> materials) {
-        this.cachedMaterials = materials;
         // 直接从当前详情获取
         String blueprintName = detail.blueprintName();
         MaterialExporter.export(materials, blueprintName);
