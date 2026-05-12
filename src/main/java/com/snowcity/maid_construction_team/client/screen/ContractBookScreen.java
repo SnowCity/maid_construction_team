@@ -93,16 +93,12 @@ public class ContractBookScreen extends Screen {
 
         // 全部存入按钮
         btnStoreAll = addRenderableWidget(
-                Button.builder(Component.literal("全部存入"), btn -> {
-                    PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)0, UUID.randomUUID(), Optional.empty(), hand));
-                }).pos(width - 80, 30).size(70, 20).build()
+                Button.builder(Component.literal("全部存入"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)0, UUID.randomUUID(), Optional.empty(), hand))).pos(width - 80, 30).size(70, 20).build()
         );
 
 // 全部取出按钮
         btnTakeAll = addRenderableWidget(
-                Button.builder(Component.literal("取出全部"), btn -> {
-                    PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)1, UUID.randomUUID(), Optional.empty(), hand));
-                }).pos(width / 2 - 35, height - 30).size(70, 20).build()
+                Button.builder(Component.literal("取出全部"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)1, UUID.randomUUID(), Optional.empty(), hand))).pos(width / 2 - 35, height - 30).size(70, 20).build()
         );
 
         // 重命名编辑框（初始隐藏）
@@ -129,9 +125,7 @@ public class ContractBookScreen extends Screen {
 
         // 在 init() 末尾添加
         addRenderableWidget(
-                Button.builder(Component.literal("分工指南"), btn -> {
-                            Minecraft.getInstance().setScreen(new ContractGuideScreen(this));
-                        })
+                Button.builder(Component.literal("分工指南"), btn -> Minecraft.getInstance().setScreen(new ContractGuideScreen(this)))
                         .pos(10, height - 50) // 左下角
                         .size(60, 20)
                         .build()
@@ -519,5 +513,13 @@ public class ContractBookScreen extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    public Button getBtnStoreAll() {
+        return btnStoreAll;
+    }
+
+    public Button getBtnTakeAll() {
+        return btnTakeAll;
     }
 }
