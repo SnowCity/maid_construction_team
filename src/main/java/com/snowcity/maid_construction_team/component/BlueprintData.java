@@ -10,6 +10,8 @@ import net.minecraft.network.codec.StreamCodec;
 
 /**
  * 蓝图纸数据组件值，内部存储原始蓝图 NBT 以及蓝图文件名。
+ * @param data CompoundTag 类型
+ * @param fileName String 类型
  */
 public record BlueprintData(CompoundTag data, String fileName) {
 

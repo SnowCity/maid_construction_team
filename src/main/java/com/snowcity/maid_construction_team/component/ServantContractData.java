@@ -9,6 +9,14 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * 仆从契约数据组件
+ * @param contractId
+ * @param entityType
+ * @param servantName
+ * @param modelVariant
+ * @param dispatchedSessionId
+ */
 public record ServantContractData(
         UUID contractId,
         ResourceLocation entityType,

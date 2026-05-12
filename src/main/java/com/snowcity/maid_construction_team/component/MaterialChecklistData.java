@@ -9,8 +9,9 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 /**
- * 物资点登记表数据组件。
- * 内部包裹一个 CompoundTag，利用原版序列化机制进行持久化与网络同步。
+ * * 物资点登记表数据组件。
+ *  * 内部包裹一个 CompoundTag，利用原版序列化机制进行持久化与网络同步。
+ * @param data
  */
 public record MaterialChecklistData(CompoundTag data) {
 

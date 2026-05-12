@@ -15,6 +15,7 @@ import java.util.UUID;
 /**
  * 契约之书的数据组件。
  * 内部存储所有已签订契约的快照列表。
+ * @param entries List 类型
  */
 public record ContractBookData(List<ContractEntry> entries) {
 
