@@ -6,14 +6,16 @@ import com.snowcity.maid_construction_team.api.labor.provider.MaidLaborProvider;
 import com.snowcity.maid_construction_team.api.labor.provider.PetLaborProvider;
 import com.snowcity.maid_construction_team.command.ConstructionStatusCommand;
 import com.snowcity.maid_construction_team.core.init.ModAttachments;
+import com.snowcity.maid_construction_team.network.handler.MaterialListClientHandler;
+import com.snowcity.maid_construction_team.network.handler.PrintMaterialServerHandler;
+import com.snowcity.maid_construction_team.network.handler.RequestMaterialListServerHandler;
 import com.snowcity.maid_construction_team.network.handler.labor.DispatchLaborServerHandler;
 import com.snowcity.maid_construction_team.network.handler.labor.LaborListClientHandler;
 import com.snowcity.maid_construction_team.network.handler.labor.RecallLaborServerHandler;
 import com.snowcity.maid_construction_team.network.handler.labor.RequestLaborListServerHandler;
 import com.snowcity.maid_construction_team.network.handler.session.SessionStateChangedClientHandler;
 import com.snowcity.maid_construction_team.network.ModifyChecklistPayload;
-import com.snowcity.maid_construction_team.network.payload.ModifyContractBookPayload;
-import com.snowcity.maid_construction_team.network.payload.SyncHandItemPayload;
+import com.snowcity.maid_construction_team.network.payload.*;
 import com.snowcity.maid_construction_team.network.payload.blueprint.ImportBlueprintPayload;
 import com.snowcity.maid_construction_team.network.handler.blueprint.ImportBlueprintServerHandler;
 import com.snowcity.maid_construction_team.network.payload.blueprint.StartPlacementPayload;
@@ -136,6 +138,11 @@ public class MaidConstructionTeam {
         registrar.playToServer(ModifyChecklistPayload.TYPE, ModifyChecklistPayload.STREAM_CODEC, ModifyChecklistPayload::handle);
         registrar.playToClient(SyncHandItemPayload.TYPE, SyncHandItemPayload.STREAM_CODEC, SyncHandItemPayload::handleClient);
         registrar.playToServer(ModifyContractBookPayload.TYPE, ModifyContractBookPayload.STREAM_CODEC, ModifyContractBookPayload::handle);
+
+        registrar.playToServer(RequestMaterialListPayload.TYPE, RequestMaterialListPayload.STREAM_CODEC, RequestMaterialListServerHandler::handle);
+        registrar.playToClient(MaterialListPayload.TYPE, MaterialListPayload.STREAM_CODEC, MaterialListClientHandler::handle);
+
+        registrar.playToServer(PrintMaterialPayload.TYPE, PrintMaterialPayload.STREAM_CODEC, PrintMaterialServerHandler::handle);
 
     }
 

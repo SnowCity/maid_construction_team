@@ -5,7 +5,6 @@ import net.neoforged.fml.ModList;
 /**
  * Create + 女仆联动入口类
  * 【作用】检测 Create 模组是否存在，封装所有联动注册逻辑
- * 【调用方】在 LittleMaidCompat 的 addMaidTask 中调用
  */
 public class CreateMaidCompat {
     private static final String MOD_ID = "create";

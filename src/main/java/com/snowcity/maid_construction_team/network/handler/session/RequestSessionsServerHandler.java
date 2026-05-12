@@ -43,7 +43,6 @@ public class RequestSessionsServerHandler {
                 SessionsResponsePayload.SessionDetail detail = buildSessionDetail(session, player);
                 PacketDistributor.sendToPlayer(player,
                         new SessionsResponsePayload(List.of(), Optional.of(detail)));
-                LOGGER.info("[Sessions] Sent detail for session {}", sid);
             } else {
                 Collection<PlacementSession> activeSessions = mgr.getActiveSessions();
                 List<SessionsResponsePayload.SessionSummary> summaries = new ArrayList<>();
@@ -59,7 +58,6 @@ public class RequestSessionsServerHandler {
                 }
                 PacketDistributor.sendToPlayer(player,
                         new SessionsResponsePayload(summaries, Optional.empty()));
-                LOGGER.info("[Sessions] Sent summary list with {} active sessions", summaries.size());
             }
         });
     }

@@ -1,8 +1,11 @@
 package com.snowcity.maid_construction_team.client.screen;
 
+import com.snowcity.maid_construction_team.client.util.MaterialExporter;
 import com.snowcity.maid_construction_team.config.MaidConstructionTeamConfig;
 import com.snowcity.maid_construction_team.core.manager.SessionStateMachine;
 import com.snowcity.maid_construction_team.core.schematic.MaterialShortageStrategy;
+import com.snowcity.maid_construction_team.network.payload.PrintMaterialPayload;
+import com.snowcity.maid_construction_team.network.payload.RequestMaterialListPayload;
 import com.snowcity.maid_construction_team.network.payload.session.ControlSessionPayload;
 import com.snowcity.maid_construction_team.network.payload.session.RequestSessionsPayload;
 import com.snowcity.maid_construction_team.network.payload.session.SessionsResponsePayload;
@@ -17,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -45,6 +49,8 @@ public class SessionDetailScreen extends Screen {
     // 按钮引用，用于动态更新文本
     private Button pauseResumeBtn;
     private Button strategyBtn;
+
+    private Map<Block, Integer> cachedMaterials;
 
     /**
      * @param detail 服务端返回的会话详情数据
@@ -114,6 +120,11 @@ public class SessionDetailScreen extends Screen {
                         }
                 ).pos(width - 110, height - 30).size(100, 20).build()
         );
+
+        // 策略按钮上方
+        addRenderableWidget(Button.builder(Component.literal("📄 打印材料"), btn -> {
+            PacketDistributor.sendToServer(new PrintMaterialPayload(detail.sessionId(), -1));
+        }).pos(width - 110, height - 60).size(80, 20).build());
     }
 
     // ==================== 状态与控制辅助方法 ====================
@@ -328,6 +339,14 @@ public class SessionDetailScreen extends Screen {
                 + " 耗" + mat.consumed()
                 + " 存" + mat.inStock()
                 + " " + mat.status();
+    }
+
+    // 接收服务端返回的材料数据
+    public void onMaterialListReceived(Map<Block, Integer> materials) {
+        this.cachedMaterials = materials;
+        // 直接从当前详情获取
+        String blueprintName = detail.blueprintName();
+        MaterialExporter.export(materials, blueprintName);
     }
 
     @Override
