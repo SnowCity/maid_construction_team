@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -22,6 +21,18 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 
 import java.util.*;
 
+/**
+ * 可靠的即时渲染蓝图预览器。
+ * <p>
+ * 功能：
+ * <ul>
+ *   <li>半透明方块渲染（原版 batch 方式）</li>
+ *   <li>内部方块剔除（可选）</li>
+ *   <li>恒定亮度，不受环境光影响</li>
+ *   <li>粉色边框标注范围</li>
+ *   <li>可调深度测试</li>
+ * </ul>
+ */
 public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
 
     private boolean depthTestEnabled = false;
@@ -29,15 +40,19 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
 
     private static final float FRAME_RED = 1.0f, FRAME_GREEN = 0.41f, FRAME_BLUE = 0.71f;
 
-    // 缓存蓝图数据
     private int lastBlocksHash = 0;
     private Set<BlockPos> blockSet = Collections.emptySet();
     private Map<BlockPos, BlockState> blueprintStates = Collections.emptyMap();
     private BlockPos minPos = BlockPos.ZERO;
     private AABB localBoundingBox = null;
 
-    public void setDepthTestEnabled(boolean enabled) { this.depthTestEnabled = enabled; }
-    public void setEnableCulling(boolean enable) { this.enableCulling = enable; }
+    public void setDepthTestEnabled(boolean enabled) {
+        this.depthTestEnabled = enabled;
+    }
+
+    public void setEnableCulling(boolean enable) {
+        this.enableCulling = enable;
+    }
 
     @Override
     public void render(GuiGraphics graphics, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource,
@@ -45,6 +60,7 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         SchematicData schematic = context.getSchematicData();
         if (schematic.getBlocks().isEmpty()) return;
 
+        // 如果方块列表发生变化，重建缓存
         int currentHash = schematic.getBlocks().hashCode();
         if (currentHash != lastBlocksHash) {
             rebuildCache(schematic);
@@ -56,7 +72,6 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         ClientLevel clientLevel = mc.level;
         if (clientLevel == null) return;
 
-        // 世界锚点：玩家放置的整数锚点（最小角） + 偏移量
         BlockPos anchor = context.getAnchor();
         Vec3 offset = context.getTranslationOffset();
         Rotation rotation = context.getRotation();
@@ -66,34 +81,39 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
         poseStack.translate(worldAnchor.x, worldAnchor.y, worldAnchor.z);
         applyRotation(poseStack, rotation);
 
-        // 渲染世界（使用客户端世界，保证最稳定）
-        BlockAndTintGetter renderWorld = clientLevel;
+        // 准备渲染
         BlockRenderDispatcher blockRenderer = mc.getBlockRenderer();
-        RandomSource random = RandomSource.create();
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucent());
+        RandomSource random = RandomSource.create();
 
-        // 恒定光照
+        // 恒定亮度
         Lighting.setupForEntityInInventory();
+        if (!depthTestEnabled) {
+            RenderSystem.disableDepthTest();
+        }
 
+        // 逐块渲染（应用内部剔除）
         for (BlockInfo info : schematic.getBlocks()) {
             BlockPos localPos = info.pos();
             if (enableCulling && isSurrounded(localPos)) continue;
 
             poseStack.pushPose();
-            // 相对于最小角 minPos 的偏移
             Vec3 rel = new Vec3(localPos.getX() - minPos.getX(),
                     localPos.getY() - minPos.getY(),
                     localPos.getZ() - minPos.getZ());
             poseStack.translate(rel.x, rel.y, rel.z);
 
-            blockRenderer.renderBatched(info.state(), localPos, renderWorld,
+            blockRenderer.renderBatched(info.state(), localPos, clientLevel,
                     poseStack, vertexConsumer, false, random, ModelData.EMPTY, null);
             poseStack.popPose();
         }
 
+        if (!depthTestEnabled) {
+            RenderSystem.enableDepthTest();
+        }
         Lighting.setupFor3DItems();
 
-        // 绘制粉色边框
+        // 绘制粉色边框（始终最前，忽略深度）
         if (localBoundingBox != null) {
             VertexConsumer lineConsumer = bufferSource.getBuffer(RenderType.lines());
             RenderSystem.disableDepthTest();
@@ -101,8 +121,6 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
             RenderSystem.enableDepthTest();
         }
 
-        if (!depthTestEnabled) RenderSystem.enableDepthTest();
-        Lighting.setupFor3DItems();
         poseStack.popPose();
     }
 
@@ -126,7 +144,6 @@ public class SchematicProjectionRenderer implements IPlacedPreviewRenderer {
 
         blueprintStates = states;
         minPos = new BlockPos(minX, minY, minZ);
-        // 边框尺寸从原点(0,0,0)开始
         localBoundingBox = new AABB(0, 0, 0, maxX - minX + 1, maxY - minY + 1, maxZ - minZ + 1);
     }
 
