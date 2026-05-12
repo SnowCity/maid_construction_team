@@ -339,6 +339,16 @@ public class ProgressivePlacer {
         // 2. 计算掉落物
         List<ItemStack> drops = getDropsForState(originalState, pos, borrowedTool);
 
+        // 采集工加成需重新获取，我们通过 bonusCollector 重新计算
+        float extraDropChance = lastDurabilitySave;
+        // 获取采集工额外掉落概率（可放在 animateLaborers 之后或单独计算）
+        float collectorChance = bonusCollector.collectExtraDropChance(sessionManager.getSession(sessionId), targetLevel, anchor);
+        if (collectorChance > 0 && Math.random() < collectorChance) {
+            // 再获取一次掉落物并添加到列表
+            List<ItemStack> extraDrops = getDropsForState(originalState, pos, borrowedTool);
+            drops.addAll(extraDrops);
+        }
+
         // 3. 扣除工具耐久
         boolean toolBroken = false;
         if (borrowedTool.isDamageableItem()) {

@@ -8,4 +8,5 @@ public interface IBonusCollector {
     int collectBlocksPerTickBonus(PlacementSession session, ServerLevel level, BlockPos anchor);
     int collectIntervalReduction(PlacementSession session, ServerLevel level, BlockPos anchor);
     float collectDurabilitySave(PlacementSession session, ServerLevel level, BlockPos anchor);
+    float collectExtraDropChance(PlacementSession session, ServerLevel level, BlockPos anchor);
 }

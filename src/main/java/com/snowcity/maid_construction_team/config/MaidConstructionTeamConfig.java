@@ -77,10 +77,6 @@ public class MaidConstructionTeamConfig {
             BUILDER.comment("签订契约时生物生命值必须低于此比例 (0.0 ~ 1.0)")
                     .defineInRange("contractHealthThreshold", 0.5, 0.0, 1.0);
 
-    private static final ModConfigSpec.BooleanValue CONSUME_CONTRACT_ON_SERVANT_DEATH =
-            BUILDER.comment("仆从死亡时是否消耗对应的契约物品。若开启，契约将被永久摧毁；若关闭，契约恢复为空闲状态。")
-                    .define("consumeContractOnServantDeath", false);
-
     // --- 预览相关 ---
     public static final ModConfigSpec.IntValue PREVIEW_FRAME_RED = BUILDER
             .comment("预览边框红色分量 (0-255)")
@@ -178,9 +174,6 @@ public class MaidConstructionTeamConfig {
 
     public double getContractHealthThreshold() { return CONTRACT_HEALTH_THRESHOLD.get(); }
 
-    public boolean isConsumeContractOnServantDeath() {
-        return CONSUME_CONTRACT_ON_SERVANT_DEATH.get();
-    }
 
     // getter 方法
     public int getPreviewFrameRed() { return PREVIEW_FRAME_RED.get(); }

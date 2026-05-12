@@ -7,6 +7,7 @@ import com.snowcity.maid_construction_team.core.schematic.PlacementSession;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class MaidLaborProvider implements ILaborProvider {
             if (entity instanceof EntityMaid maid) {
                 if (maid.getOwnerUUID() != null && maid.getOwnerUUID().equals(player.getUUID())) {
                     // 获取生物类型的注册名作为 ResourceLocation
-                    ResourceLocation entityType = maid.getType().builtInRegistryHolder().key().location();
+                    ResourceLocation entityType = EntityType.getKey(maid.getType());
                     LaborInfo info = new LaborInfo(
                             maid.getUUID(),                       // laborId
                             maid.getDisplayName().getString(),    // displayName
@@ -84,6 +85,7 @@ public class MaidLaborProvider implements ILaborProvider {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        // 启用女仆劳动力
+        return true;
     }
 }

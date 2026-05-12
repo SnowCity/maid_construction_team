@@ -1,5 +1,6 @@
 package com.snowcity.maid_construction_team.api.contract;
 
+import com.snowcity.maid_construction_team.api.contract.impl.CollectorEffect;
 import com.snowcity.maid_construction_team.component.ServantContractData;
 import com.snowcity.maid_construction_team.core.schematic.PlacementSession;
 import net.minecraft.core.BlockPos;
@@ -55,6 +56,22 @@ public class DefaultBonusCollector implements IBonusCollector {
             }
         }
         return total;
+    }
+
+    // 新增方法
+    @Override
+    public float collectExtraDropChance(PlacementSession session, ServerLevel level, BlockPos anchor) {
+        float totalChance = 0f;
+        for (UUID contractId : session.getActiveContractIds()) {
+            EntityType<?> type = getEntityType(contractId);
+            if (type != null) {
+                IContractEffect effect = ContractRoleRegistry.getEffect(type);
+                if (effect instanceof CollectorEffect collector) {
+                    totalChance += collector.getExtraDropChance(type, level, anchor);
+                }
+            }
+        }
+        return Math.min(totalChance, 1.0f);
     }
 
     private EntityType<?> getEntityType(UUID contractId) {
