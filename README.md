@@ -1,7 +1,9 @@
-# 🧩 Maid Construction Team
+# 🧩 Maid Construction Team (狐闹重工)
 
-**为车万女仆赋予自动建筑能力！**  
-一个专为 [Touhou Little Maid](https://github.com/tartaricacid/TouhouLittleMaid) 设计的附属模组，支持机械动力蓝图，提供完整的劳动力管理、契约加成和高精度预览系统。
+**Attention: This mod is currently in early testing stage. Do NOT use it in important saves or production environments.**
+
+**Empowers Touhou Little Maids with automatic construction capabilities!**  
+A dedicated addon for [Touhou Little Maid](https://github.com/tartaricacid/TouhouLittleMaid) that supports Create mod schematics, offering a complete labour management system, contract bonuses, and a high‑precision preview system.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)  
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green)  
@@ -9,112 +11,112 @@
 
 ---
 
-## 📖 简介
+## 📖 Introduction
 
-**女仆建筑队** 让您的女仆们真正参与建造！导入机械动力的 `.nbt` 蓝图后，您可以通过预览系统精确放置建筑位置，然后派遣女仆或宠物作为劳动力，自动完成方块放置、材料消耗和工具模拟。激活生物契约来获取各种建造加成，使工程更加高效。
-
----
-
-## ✨ 核心特性
-
-### 🏗️ 蓝图建造与预览
-- 导入机械动力（Create）的 `.nbt` 蓝图文件。(目前只支持Create的蓝图文件)
-- **半透明投影预览**：实时显示建筑全貌，支持移动、旋转和双步长精确调整。
-- 渐进式放置，可配置速度、材料消耗和工具损坏模拟。
-- 离线持久化：未完成的建筑在玩家重连后自动断点续建。
-
-### 👷 劳动力系统
-- 支持**车万女仆**和原版宠物（狼、鹦鹉等）作为劳动力。
-- 花名册 UI：搜索、派遣、批量派遣、召回，实时查看工作状态。
-- 女仆拥有专用建造动画（面向目标、移动），宠物则挥臂助威。
-- 无劳动力时自动暂停建造。
-
-### 📜 契约加成系统
-- 用“契约”物品捕捉低血量生物，签订契约。
-- 契约之书：存储、命名、激活/召回契约，提供**分工指南**。
-- **四种分工**：
-    - 💪 **建筑工**：单次放置更多方块（亡灵夜间翻倍）。
-    - ⚡ **工程师**：缩短放置间隔（骷髅低光额外加速）。
-    - 🛠️ **养护工**：节省工具耐久（苦力怕雷雨翻倍）。
-    - ⛏️ **采集工**：破坏方块时额外掉落（蜘蛛夜间翻倍）。
-- 一键打印材料清单到书本或剪贴板（支持机械动力）。
-
-### 🎮 机械动力式控制
-- 按住 `Alt` 进入预览模式，`Alt + 滚轮` 切换工具，`Ctrl + 滚轮` 执行微调，`Shift` 加速。
-- 三种工具：水平移动、垂直移动、旋转（每次90°）。
-
-### 📦 物资登记与工具
-- 物资登记表：标记容器作为材料来源。
-- 工具模拟：自动寻找合适工具，消耗耐久，回收掉落物。
-
-### 🔌 扩展性
-- 通过注解 `@AutoContractEffect` 可轻松添加新分工效果。
-- 实现 `ILaborProvider` 接口即可支持新的劳动力类型。
-- 自定义蓝图预览渲染器实现 `IPlacedPreviewRenderer`。
+**Maid Construction Team** lets your maids truly participate in building! Import Create `.nbt` schematics, precisely position the building using the preview system, and then dispatch maids or pets as labour to automatically place blocks, consume materials, and simulate tool usage. Activate creature contracts to obtain various construction bonuses and make your projects even more efficient.
 
 ---
 
-## 📥 安装
+## ✨ Core Features
 
-1. 确保已游戏版本为 **Minecraft 1.21.1** 和 **NeoForge 21.1.219** 或更高版本。
-2. 下载并安装 **[Touhou Little Maid](https://www.curseforge.com/minecraft/mc-mods/touhou-little-maid)**（必须）。
-3. （可选）安装 **[Create](https://www.curseforge.com/minecraft/mc-mods/create)** 以获得完整的蓝图及剪贴板支持。
-4. 将本模组的 `.jar` 文件放入 `mods` 文件夹。
-5. 启动游戏！
+### 🏗️ Schematic Construction & Preview
+- Import Create `.nbt` schematic files (currently only Create schematics are supported).
+- **Translucent projection preview**: displays the entire building in real time, supporting movement, rotation, and dual‑step precision adjustment.
+- Progressive placement with configurable speed, material consumption, and tool damage simulation.
+- Offline persistence: unfinished builds automatically resume from the last checkpoint when the player rejoins.
 
----
+### 👷 Labour System
+- Supports **Touhou Little Maids** and vanilla pets (wolves, parrots, etc.) as labour.
+- Roster UI: search, single/batch dispatch, recall, and real‑time status overview.
+- Maids have dedicated construction animations (face target, move toward it); pets swing their arms in encouragement.
+- Construction automatically pauses when no labour is present.
 
-## ⚙️ 配置
+### 📜 Contract Bonus System
+- Capture low‑health creatures with a "Contract" item to sign them.
+- Contract Book: store, rename, activate/recall contracts; includes a **Role Guide**.
+- **Four roles**:
+    - 💪 **Builder**: increases blocks placed per tick (doubled for undead at night).
+    - ⚡ **Engineer**: reduces placement interval (extra reduction for skeletons in low light).
+    - 🛠️ **Maintenance**: reduces tool durability consumption (doubled for creepers in thunderstorms).
+    - ⛏️ **Collector**: extra drops when breaking blocks (doubled for spiders at night).
+- One‑click printing of material lists into a book or clipboard (Create compatible).
 
-所有设置可在 `maid_construction_team.toml` 中调整：
-- 放置速度、材料消耗开关
-- 工具模拟、劳动力加成
-- 预览边框颜色、深度测试
-- 契约生命值阈值、分工上限
+### 🎮 Create‑Style Controls
+- Hold `Alt` to enter preview mode, `Alt + Scroll` to switch tools, `Ctrl + Scroll` to adjust, `Shift` for speed boost.
+- Three tools: horizontal move, vertical move, rotate (90° increments).
 
----
+### 📦 Material Marking & Tools
+- Material Checklist: mark containers as material sources.
+- Tool simulation: automatically finds suitable tools, consumes durability, and collects drops.
 
-## 🧪 使用入门
-
-1. 制作 **蓝图纸**，右键打开 GUI 导入 `.nbt` 蓝图。
-2. 潜行右键方块选择放置位置，进入预览模式。
-3. 使用 `Alt/Ctrl + 滚轮` 调整位置和旋转，按 `Enter` 确认。
-4. 派遣女仆/宠物到该会话（用花名册）。
-5. 签订生物契约，存入契约之书并激活到当前会话。
-6. 建造自动进行，可使用规划表查看进度，打印材料清单。
-
----
-
-## 🖼️ 截图
-
-<!-- 建议添加 2-3 张截图：分工指南界面、半透明投影预览、印刷的材料书 -->
-
----
-
-## 🛠️ 开发与扩展
-
-如果您是一名整合包作者或模组开发者，可以轻松扩展本模组的功能：
-- 实现 `IContractEffect` 并标注 `@AutoContractEffect` 自动注册新分工。
-- 实现 `ILaborProvider` 添加自定义劳动力。
-- 实现 `IPlacedPreviewRenderer` 替换预览视觉效果。
-
-详细 API 文档请参考源码或即将发布的 Wiki。
+### 🔌 Extensibility
+- Easily add new contract effects with the `@AutoContractEffect` annotation.
+- Implement `ILaborProvider` to support new labour types.
+- Customise the blueprint preview renderer by implementing `IPlacedPreviewRenderer`.
 
 ---
 
-## 💬 反馈与支持
+## 📥 Installation
 
-- 提交BUG或建议：[Issues](https://github.com/yourrepo/issues)
-- 加入社区：[Discord 链接](https://discord.gg/yourinvite)（如果有）
-
----
-
-## 👥 致谢
-
-- [Touhou Little Maid](https://github.com/tartaricacid/TouhouLittleMaid) 提供女仆实体和 API。
-- [Create](https://github.com/Creators-of-Create/Create) 提供蓝图格式和灵感。
-- 所有参与测试和反馈的玩家。
+1. Make sure your game is **Minecraft 1.21.1** running on **NeoForge 21.1.219** or later.
+2. Download and install **[Touhou Little Maid](https://www.curseforge.com/minecraft/mc-mods/touhou-little-maid)** (required).
+3. (Optional) install **[Create](https://www.curseforge.com/minecraft/mc-mods/create)** for full schematic and clipboard support.
+4. Place the mod `.jar` file into your `mods` folder.
+5. Launch the game!
 
 ---
 
-**⚒️ 让女仆成为您最可靠的建筑工！**
+## ⚙️ Configuration
+
+All settings can be adjusted in `maid_construction_team.toml`:
+- Placement speed, material consumption toggle
+- Tool simulation, labour bonus
+- Preview frame colour, depth test
+- Contract health threshold, role limits
+
+---
+
+## 🧪 Getting Started
+
+1. Craft a **Blueprint Paper**, right‑click to open the GUI and import an `.nbt` schematic.
+2. Sneak + right‑click a block to choose the placement location and enter preview mode.
+3. Use `Alt/Ctrl + Scroll` to adjust position and rotation, then press `Enter` to confirm.
+4. Dispatch maids/pets to the session (via the Roster).
+5. Sign creature contracts, store them in the Contract Book, and activate them for the session.
+6. Construction runs automatically; use the Schedule to track progress and print material lists.
+
+---
+
+## 🖼️ Screenshots
+
+<!-- Add 2-3 screenshots here: Role Guide interface, translucent projection preview, printed material book -->
+
+---
+
+## 🛠️ Development & Extension
+
+If you are a modpack creator or mod developer, you can easily extend this mod:
+- Implement `IContractEffect` and annotate it with `@AutoContractEffect` to auto‑register new roles.
+- Implement `ILaborProvider` to add custom labour.
+- Implement `IPlacedPreviewRenderer` to replace the preview visual effect.
+
+Detailed API documentation can be found in the source code or the upcoming Wiki.
+
+---
+
+## 💬 Feedback & Support
+
+- Report bugs or suggestions: [Issues](https://github.com/yourrepo/issues)
+- Join our community: [Discord](https://discord.gg/yourinvite) (if available)
+
+---
+
+## 👥 Acknowledgements
+
+- [Touhou Little Maid](https://github.com/tartaricacid/TouhouLittleMaid) for the maid entity and API.
+- [Create](https://github.com/Creators-of-Create/Create) for the schematic format and inspiration.
+- All players who participated in testing and provided feedback.
+
+---
+
+**⚒️ Let your maids become your most reliable builders!**
