@@ -18,7 +18,7 @@ public class MaidConstructionTeamCreativeModeTabs {
             CREATIVE_MODE_TABS.register("maid_construction_team_tab", () -> CreativeModeTab.builder()
                     // 分类栏的图标
                     .icon( () -> new ItemStack(MaidConstructionTeamItems.BLUEPRINT_PAPER.get()))
-                    .title(Component.translatable("itemGroup.maid_construction_team_tab"))
+                    .title(Component.translatable("item_group.maid_construction_team_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         // 需要在这个单开的创造物品栏里显示的物品
                         output.accept(MaidConstructionTeamItems.SCHEDULE);

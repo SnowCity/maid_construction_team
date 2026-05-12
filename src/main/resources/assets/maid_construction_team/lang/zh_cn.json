@@ -1,4 +1,14 @@
 {
+  "item.maid_construction_team.schedule": "规划表",
+  "item.maid_construction_team.moriya_iron_ring": "洩矢铁轮",
+  "item.maid_construction_team.material_checklist": "物资登记表",
+  "item.maid_construction_team.blueprint_paper": "蓝图纸",
+  "item.maid_construction_team.servant_contract": "仆从契约",
+  "item.maid_construction_team.contract_book": "契约之书",
+  "item.maid_construction_team.roster": "花名册",
+
+  "item_group.maid_construction_team_tab": "狐闹重工",
+
   "mct.screen.contract_book.title": "契约之书",
   "mct.screen.roster.title": "花名册",
   "mct.screen.schedule.title": "规划表",
@@ -88,13 +98,18 @@
   "mct.contract.role.collector": "采集工",
 
   "mct.contract.builder.desc": "§6◆ 建筑工 §r(基础+2 方块/次)",
-  "mct.contract.engineer.desc": "§6◆ 工程师 §r(间隔 -3 刻)",
-  "mct.contract.maintenance.desc": "§6◆ 养护工 §r(耐久节省 20%)",
-  "mct.contract.collector.desc": "§6◆ 采集工 §r(额外掉落 +20%)",
   "mct.contract.builder.detail.1": "§7  - 亡灵生物在夜晚/雷雨时效果翻倍",
+  "mct.contract.engineer.desc": "§6◆ 工程师 §r(间隔 -3 刻)",
   "mct.contract.engineer.detail.1": "§7  - 骷髅在低亮度下额外减少 2 刻",
+  "mct.contract.maintenance.desc": "§6◆ 养护工 §r(耐久节省 20%)",
   "mct.contract.maintenance.detail.1": "§7  - 苦力怕在雷雨时效果翻倍",
+  "mct.contract.collector.desc": "§6◆ 采集工 §r(额外掉落 +20%)",
   "mct.contract.collector.detail.1": "§7  - 蜘蛛在夜晚/雷雨时效果翻倍",
+  "mct.contract.collector.detail.2": "§7  - 洞穴蜘蛛在低亮度时概率 +10%",
+  "mct.contract.placement_interval": "不影响放置间隔",
+  "mct.contract.blocks_per_tick": "不影响单次放置数量",
+  "mct.contract.placement_speed": "不影响放置速度",
+
 
   "mct.tooltip.blueprint_stored": "已存储蓝图",
   "mct.tooltip.blueprint_empty": "空白",

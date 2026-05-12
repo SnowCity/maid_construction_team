@@ -40,9 +40,9 @@ public class MaintenanceEffect implements IContractEffect {
     @Override
     public List<Component> getEffectDescriptions() {
         return List.of(
-                Component.literal("§6◆ 养护工 §r(耐久节省 20%)"),
-                Component.literal("§7  - 苦力怕在雷雨时节省提升至 40%"),
-                Component.literal("§7  - 不影响放置速度")
+                Component.translatable("mct.contract.maintenance.desc"),
+                Component.translatable("mct.contract.maintenance.detail.1"),
+                Component.translatable("mct.contract.placement_speed")
         );
     }
 }

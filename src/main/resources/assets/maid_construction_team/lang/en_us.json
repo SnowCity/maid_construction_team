@@ -1,4 +1,14 @@
 {
+  "item.maid_construction_team.schedule": "schedule",
+  "item.maid_construction_team.moriya_iron_ring": "moriya iron ring",
+  "item.maid_construction_team.material_checklist": "material checklist",
+  "item.maid_construction_team.blueprint_paper": "blueprint paper",
+  "item.maid_construction_team.servant_contract": "servant contract",
+  "item.maid_construction_team.contract_book": "contract book",
+  "item.maid_construction_team.roster": "roster",
+
+  "item_group.maid_construction_team_tab": "Maid Construction Team",
+
   "mct.screen.contract_book.title": "Contract Book",
   "mct.screen.roster.title": "Roster",
   "mct.screen.schedule.title": "Schedule",
@@ -88,13 +98,17 @@
   "mct.contract.role.collector": "Collector",
 
   "mct.contract.builder.desc": "§6◆ Builder §r(Base +2 blocks/placement)",
-  "mct.contract.engineer.desc": "§6◆ Engineer §r(Interval -3 ticks)",
-  "mct.contract.maintenance.desc": "§6◆ Maintenance §r(Durability save 20%)",
-  "mct.contract.collector.desc": "§6◆ Collector §r(Extra drop +20%)",
   "mct.contract.builder.detail.1": "§7  - Undead creatures double effect at night/thunder",
+  "mct.contract.engineer.desc": "§6◆ Engineer §r(Interval -3 ticks)",
   "mct.contract.engineer.detail.1": "§7  - Skeletons get extra -2 ticks in low light",
+  "mct.contract.maintenance.desc": "§6◆ Maintenance §r(Durability save 20%)",
   "mct.contract.maintenance.detail.1": "§7  - Creepers double effect in thunderstorms",
+  "mct.contract.collector.desc": "§6◆ Collector §r(Extra drop +20%)",
   "mct.contract.collector.detail.1": "§7  - Spiders double effect at night/thunder",
+  "mct.contract.collector.detail.2": "§7  - Skeletons get extra +10% ticks in low light",
+  "mct.contract.placement_interval": "No impact on placement interval",
+  "mct.contract.blocks_per_tick": "Does not affect single placement quantity.",
+  "mct.contract.placement_speed": "Does not affect placement speed.",
 
   "mct.tooltip.blueprint_stored": "Blueprint stored",
   "mct.tooltip.blueprint_empty": "Empty",

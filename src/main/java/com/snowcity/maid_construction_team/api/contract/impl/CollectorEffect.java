@@ -65,10 +65,10 @@ public class CollectorEffect implements IContractEffect {
     @Override
     public List<net.minecraft.network.chat.Component> getEffectDescriptions() {
         return List.of(
-                net.minecraft.network.chat.Component.literal("§6◆ 采集工 §r(额外掉落 +20%)"),
-                net.minecraft.network.chat.Component.literal("§7  - 蜘蛛在夜晚/雷雨时概率翻倍 (+40%)"),
-                net.minecraft.network.chat.Component.literal("§7  - 洞穴蜘蛛在低亮度时概率 +10%"),
-                net.minecraft.network.chat.Component.literal("§7  - 不影响放置速度")
+                net.minecraft.network.chat.Component.translatable("mct.contract.collector.desc"),
+                net.minecraft.network.chat.Component.translatable("mct.contract.collector.detail.1"+"(+40%)"),
+                net.minecraft.network.chat.Component.translatable("mct.contract.collector.detail.2"),
+                net.minecraft.network.chat.Component.translatable("mct.contract.placement_speed")
         );
     }
 }

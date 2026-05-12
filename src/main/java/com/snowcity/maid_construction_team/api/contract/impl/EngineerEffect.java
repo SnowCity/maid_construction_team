@@ -47,9 +47,9 @@ public class EngineerEffect implements IContractEffect {
     @Override
     public List<Component> getEffectDescriptions() {
         return List.of(
-                Component.literal("§6◆ 工程师 §r(间隔 -3 刻)"),
-                Component.literal("§7  - 骷髅在低亮度下额外 -2 刻 (合计 -5)"),
-                Component.literal("§7  - 不影响单次放置数量")
+                Component.translatable("mct.contract.engineer.desc"),
+                Component.translatable("mct.contract.engineer.detail.1"),
+                Component.translatable("mct.contract.blocks_per_tick")
         );
     }
 }

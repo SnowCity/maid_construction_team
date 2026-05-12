@@ -50,9 +50,9 @@ public class BuilderEffect implements IContractEffect {
     @Override
     public List<Component> getEffectDescriptions() {
         return List.of(
-                Component.literal("§6◆ 建筑工 §r(基础+2 方块/次)"),
-                Component.literal("§7  - 亡灵生物在夜晚/雷雨时效果翻倍 (+4)"),
-                Component.literal("§7  - 不影响放置间隔")
+                Component.translatable("mct.contract.builder.desc"),
+                Component.translatable("mct.contract.builder.detail.1"),
+                Component.translatable("mct.contract.placement_interval")
         );
     }
 }

@@ -84,10 +84,6 @@ public class MaidConstructionTeam {
         modEventBus.addListener(this::addCreative);
 
         // 配置文件路径
-//        modContainer.registerConfig(
-//                ModConfig.Type.COMMON, MaidBuildConfig.SPEC, "maid_construction_team/old_maid_construction_team.toml"
-//        );
-
         modContainer.registerConfig(
                 ModConfig.Type.COMMON, MaidConstructionTeamConfig.SPEC, "maid_construction_team/maid_construction_team.toml"
         );
