@@ -77,7 +77,7 @@ public class RosterScreen extends Screen {
     private Button btnDispatchSelected;    // 派遣选中
 
     public RosterScreen() {
-        super(Component.literal("花名册"));
+        super(Component.translatable("mct.screen.roster.title"));
         this.player = Minecraft.getInstance().player;
     }
 
@@ -87,7 +87,7 @@ public class RosterScreen extends Screen {
         super.init();
 
         // ---- 搜索框 ----
-        searchBox = new EditBox(font, 10, 48, 120, 16, Component.literal("搜索"));
+        searchBox = new EditBox(font, 10, 48, 120, 16, Component.translatable("mct.screen.search"));
         searchBox.setValue(searchText);
         searchBox.setResponder(text -> {
             searchText = text;
@@ -109,13 +109,13 @@ public class RosterScreen extends Screen {
 
         // ---- 关闭按钮 ----
         btnClose = addRenderableWidget(
-                Button.builder(Component.literal("关闭"), btn -> onClose())
+                Button.builder(Component.translatable("mct.screen.close"), btn -> onClose())
                         .pos(width - 60, height - 30).size(50, 20).build()
         );
 
         // ---- 翻页按钮 ----
         btnPrevPage = addRenderableWidget(
-                Button.builder(Component.literal("< 上一页"), btn -> {
+                Button.builder(Component.translatable("mct.screen.previous_page"), btn -> {
                     if (currentPage > 0) {
                         currentPage--;
                         updatePageButtons();
@@ -123,7 +123,7 @@ public class RosterScreen extends Screen {
                 }).pos(width / 2 - 80, height - 30).size(60, 20).build()
         );
         btnNextPage = addRenderableWidget(
-                Button.builder(Component.literal("下一页 >"), btn -> {
+                Button.builder(Component.translatable("mct.screen.next_page"), btn -> {
                     if (currentPage < totalPages - 1) {
                         currentPage++;
                         updatePageButtons();
@@ -133,15 +133,15 @@ public class RosterScreen extends Screen {
 
         // ---- 刷新列表按钮 ----
         addRenderableWidget(
-                Button.builder(Component.literal("刷新列表"), btn -> {
+                Button.builder(Component.translatable("mct.screen.refresh"), btn -> {
                     PacketDistributor.sendToServer(new RequestLaborListPayload());
-                    player.sendSystemMessage(Component.literal("正在重新扫描..."));
+                    player.sendSystemMessage(Component.translatable("mct.message.scanning"));
                 }).pos(width / 2 - 35, 22).size(60, 16).build()
         );
 
         // ---- 批量派遣按钮 ----
         btnSelectAll = addRenderableWidget(
-                Button.builder(Component.literal("全选"), btn -> {
+                Button.builder(Component.translatable("mct.screen.select_all"), btn -> {
                     // 计算当前显示的空闲劳动力总数
                     long idleCount = allLabor.stream().filter(i -> i.status() == LaborStatus.IDLE).count();
                     if (selectedLaborIds.size() == idleCount) {
@@ -160,9 +160,9 @@ public class RosterScreen extends Screen {
         );
 
         btnDispatchSelected = addRenderableWidget(
-                Button.builder(Component.literal("派遣选中"), btn -> {
+                Button.builder(Component.translatable("mct.screen.dispatch_selected"), btn -> {
                     if (selectedLaborIds.isEmpty()) {
-                        player.sendSystemMessage(Component.literal("没有选中的劳动力"));
+                        player.sendSystemMessage(Component.translatable("mct.message.no_labor_selected"));
                         return;
                     }
                     // 打开会话选择，选择后批量派遣
@@ -250,7 +250,7 @@ public class RosterScreen extends Screen {
             LaborInfo info = filteredLabor.get(i);
 
             if (info.status() == LaborStatus.IDLE) {
-                Button btnDispatch = Button.builder(Component.literal("派遣"), btn -> {
+                Button btnDispatch = Button.builder(Component.translatable("mct.screen.dispatch"), btn -> {
                     Minecraft.getInstance().setScreen(new SessionSelectionScreen(session -> {
                         PacketDistributor.sendToServer(new DispatchLaborPayload(info.laborId(), info.sourceType(), session.getSessionId()));
                         PacketDistributor.sendToServer(new RequestLaborListPayload());
@@ -260,7 +260,7 @@ public class RosterScreen extends Screen {
                 addRenderableWidget(btnDispatch);
                 dispatchButtons.put(info.laborId(), btnDispatch);
             } else if (info.status() == LaborStatus.WORKING) {
-                Button btnRecall = Button.builder(Component.literal("召回"), btn -> {
+                Button btnRecall = Button.builder(Component.translatable("mct.screen.recall"), btn -> {
                     PacketDistributor.sendToServer(new RecallLaborPayload(info.laborId(), info.sourceType()));
                     PacketDistributor.sendToServer(new RequestLaborListPayload());
                 }).pos(0, 0).size(40, 16).build();
@@ -468,9 +468,9 @@ public class RosterScreen extends Screen {
     private void updateSelectButtonText() {
         long idleCount = allLabor.stream().filter(i -> i.status() == LaborStatus.IDLE).count();
         if (selectedLaborIds.size() == idleCount && idleCount > 0) {
-            btnSelectAll.setMessage(Component.literal("取消全选"));
+            btnSelectAll.setMessage(Component.translatable("mct.screen.deselect_all"));
         } else {
-            btnSelectAll.setMessage(Component.literal("全选"));
+            btnSelectAll.setMessage(Component.translatable("mct.screen.select_all"));
         }
     }
 

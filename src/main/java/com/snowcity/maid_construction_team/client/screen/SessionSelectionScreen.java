@@ -36,7 +36,7 @@ public class SessionSelectionScreen extends Screen {
 
     // 新构造器，接收父屏幕
     public SessionSelectionScreen(Consumer<PlacementSession> onSelect, Screen parent) {
-        super(Component.literal("选择会话"));
+        super(Component.translatable("mct.screen.session_selection.title"));
         this.onSelect = onSelect;
         this.parent = parent;
     }

@@ -52,7 +52,7 @@ public class BlueprintSelectionScreen extends Screen {
     private Button btnCancel;
 
     public BlueprintSelectionScreen(Player player) {
-        super(Component.literal("选择蓝图"));
+        super(Component.translatable("选择蓝图"));
         this.player = player;
     }
 

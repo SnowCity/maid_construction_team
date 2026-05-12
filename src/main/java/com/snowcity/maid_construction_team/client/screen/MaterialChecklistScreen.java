@@ -50,7 +50,7 @@ public class MaterialChecklistScreen extends Screen {
     private Button renameCancelBtn;
 
     public MaterialChecklistScreen(ItemStack stack, InteractionHand hand) {
-        super(Component.literal("物资登记表"));
+        super(Component.translatable("mct.screen.material_checklist.title"));
         this.stack = stack;
         this.hand = hand;
         refreshData();
@@ -73,7 +73,7 @@ public class MaterialChecklistScreen extends Screen {
         super.init();
 
         // 搜索框
-        searchBox = new EditBox(font, 10, 42, 150, 16, Component.literal("搜索"));
+        searchBox = new EditBox(font, 10, 42, 150, 16, Component.translatable("mct.screen.search"));
         searchBox.setValue(searchText);
         searchBox.setResponder(text -> {
             searchText = text;
@@ -82,17 +82,17 @@ public class MaterialChecklistScreen extends Screen {
         addRenderableWidget(searchBox);
 
         // 重命名控件
-        renameEditBox = new EditBox(font, width / 2 - 80, height / 2 - 10, 160, 20, Component.literal("新名称"));
+        renameEditBox = new EditBox(font, width / 2 - 80, height / 2 - 10, 160, 20, Component.translatable("mct.screen.new_name"));
         renameEditBox.setVisible(false);
         addRenderableWidget(renameEditBox);
 
         renameConfirmBtn = addRenderableWidget(
-                Button.builder(Component.literal("确认"), btn -> confirmRename())
+                Button.builder(Component.translatable("mct.screen.confirm"), btn -> confirmRename())
                         .pos(width / 2 - 85, height / 2 + 15).size(60, 20).build());
         renameConfirmBtn.visible = false;
 
         renameCancelBtn = addRenderableWidget(
-                Button.builder(Component.literal("取消"), btn -> cancelRename())
+                Button.builder(Component.translatable("mct.screen.cancel"), btn -> cancelRename())
                         .pos(width / 2 - 20, height / 2 + 15).size(60, 20).build());
         renameCancelBtn.visible = false;
 
@@ -119,7 +119,7 @@ public class MaterialChecklistScreen extends Screen {
 
                 // 创建操作按钮
                 List<Button> btns = new ArrayList<>();
-                Button renameBtn = Button.builder(Component.literal("重命名"), btn -> {
+                Button renameBtn = Button.builder(Component.translatable("mct.screen.rename"), btn -> {
                     isRenaming = true;
                     renamingIndex = index;
                     renameEditBox.setValue(getDisplayName(containers.getCompound(index)));
@@ -132,7 +132,7 @@ public class MaterialChecklistScreen extends Screen {
                 btns.add(renameBtn);
                 addRenderableWidget(renameBtn);
 
-                Button removeBtn = Button.builder(Component.literal("取消登记"), btn -> {
+                Button removeBtn = Button.builder(Component.translatable("mct.screen.cancel"), btn -> {
                     PacketDistributor.sendToServer(new ModifyChecklistPayload(
                             (byte)0, pos, Optional.empty(), hand
                     ));

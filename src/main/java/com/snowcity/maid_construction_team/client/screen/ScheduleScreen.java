@@ -63,7 +63,7 @@ public class ScheduleScreen extends Screen {
     private static final int CARD_X = 10;
 
     public ScheduleScreen() {
-        super(Component.literal("规划表"));
+        super(Component.translatable("mct.screen.schedule.title"));
     }
 
     @Nullable
@@ -79,11 +79,11 @@ public class ScheduleScreen extends Screen {
         // ---- 标签按钮 ----
         int tabW = 100, tabH = 20;
         tabActiveBtn = addRenderableWidget(
-                Button.builder(Component.literal("📋 活跃会话"), btn -> switchTab(Tab.ACTIVE_SESSIONS))
+                Button.builder(Component.translatable("mct.screen.active_session"), btn -> switchTab(Tab.ACTIVE_SESSIONS))
                         .pos(width / 4 - tabW / 2, 10).size(tabW, tabH).build()
         );
         tabPreviewBtn = addRenderableWidget(
-                Button.builder(Component.literal("👁️ 未部署预览"), btn -> switchTab(Tab.UNDEPLOYED_PREVIEWS))
+                Button.builder(Component.literal("mct.screen.undeployed_preview"), btn -> switchTab(Tab.UNDEPLOYED_PREVIEWS))
                         .pos(3 * width / 4 - tabW / 2, 10).size(tabW, tabH).build()
         );
 
@@ -158,7 +158,7 @@ public class ScheduleScreen extends Screen {
         int y = 40;
         for (SessionsResponsePayload.SessionSummary summary : sessions) {
             // 创建“详情”按钮
-            Button detailBtn = Button.builder(Component.literal("详情"), btn -> {
+            Button detailBtn = Button.builder(Component.translatable("mct.screen.details"), btn -> {
                 PacketDistributor.sendToServer(new RequestSessionsPayload(Optional.of(summary.sessionId())));
             }).pos(0, 0).size(40, 20).build();
             addRenderableWidget(detailBtn);
@@ -219,7 +219,7 @@ public class ScheduleScreen extends Screen {
 
             // 创建“取消预览”按钮，并绑定正确的预览 ID
             UUID previewId = entry.getPreviewId(); // 确保 PreviewEntry 已暴露 getPreviewId()
-            Button cancelBtn = Button.builder(Component.literal("取消预览"), btn -> {
+            Button cancelBtn = Button.builder(Component.translatable("mct.screen.cancel"), btn -> {
                 PreviewManager.cancel(previewId);
                 rebuildPreviewCards(); // 取消后立即刷新界面
             }).pos(0, 0).size(60, 20).build();

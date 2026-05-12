@@ -54,7 +54,7 @@ public class SessionDetailScreen extends Screen {
      * @param detail 服务端返回的会话详情数据
      */
     public SessionDetailScreen(SessionsResponsePayload.SessionDetail detail) {
-        super(Component.literal("会话详情"));
+        super(Component.translatable("mct.screen.session_detail.title"));
         this.detail = detail;
         updateRefreshInterval();
     }
@@ -74,33 +74,33 @@ public class SessionDetailScreen extends Screen {
                 }).pos(width / 2 - 140, height - 30).size(60, 20).build()
         );
 
-        // ---- 取消建造按钮（二次确认） ----
+        // ---- 取消建造按钮 ----
         addRenderableWidget(
-                Button.builder(Component.literal("取消建造"), btn -> {
-                    minecraft.setScreen(new ConfirmScreen(
-                            confirmed -> {
-                                if (confirmed) {
-                                    sendControl(ControlSessionPayload.Action.CANCEL);
-                                    onClose();
-                                } else {
-                                    minecraft.setScreen(this);
-                                }
-                            },
-                            Component.literal("确认取消建造？"),
-                            Component.literal("已放置的方块将保留，操作不可撤销。")
-                    ));
+                Button.builder(Component.translatable("mct.screen.cancel"), btn -> {
+//                    minecraft.setScreen(new ConfirmScreen(
+//                            confirmed -> {
+//                                if (confirmed) {
+//                                    sendControl(ControlSessionPayload.Action.CANCEL);
+//                                    onClose();
+//                                } else {
+//                                    minecraft.setScreen(this);
+//                                }
+//                            },
+//                            Component.literal("确认取消建造？"),
+//                            Component.literal("已放置的方块将保留，操作不可撤销。")
+//                    ));
                 }).pos(width / 2 - 70, height - 30).size(60, 20).build()
         );
 
         // ---- 手动刷新按钮 ----
         addRenderableWidget(
-                Button.builder(Component.literal("刷新"), btn -> refreshDetail())
+                Button.builder(Component.translatable("mct.screen.refresh"), btn -> refreshDetail())
                         .pos(width / 2, height - 30).size(60, 20).build()
         );
 
         // ---- 返回列表按钮 ----
         addRenderableWidget(
-                Button.builder(Component.literal("返回列表"), btn -> {
+                Button.builder(Component.translatable("mct.screen.back"), btn -> {
                     minecraft.setScreen(new ScheduleScreen());
                 }).pos(10, height - 30).size(60, 20).build()
         );
@@ -120,7 +120,7 @@ public class SessionDetailScreen extends Screen {
         );
 
         // 策略按钮上方
-        addRenderableWidget(Button.builder(Component.literal("📄 打印材料"), btn -> {
+        addRenderableWidget(Button.builder(Component.translatable("mct.screen.print_material"), btn -> {
             PacketDistributor.sendToServer(new PrintMaterialPayload(detail.sessionId(), -1));
         }).pos(width - 110, height - 60).size(80, 20).build());
     }

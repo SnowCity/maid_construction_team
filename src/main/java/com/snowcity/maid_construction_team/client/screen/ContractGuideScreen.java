@@ -36,7 +36,7 @@ public class ContractGuideScreen extends Screen {
     private int scrollOffset = 0;
 
     public ContractGuideScreen(Screen parent) {
-        super(Component.literal("契约分工指南"));
+        super(Component.translatable("mct.screen.contract_guide.title"));
         this.parent = parent;
     }
 
@@ -44,7 +44,7 @@ public class ContractGuideScreen extends Screen {
     protected void init() {
         super.init();
         addRenderableWidget(
-                Button.builder(Component.literal("返回"), btn -> {
+                Button.builder(Component.translatable("mct.screen.back"), btn -> {
                             if (parent != null) {
                                 Minecraft.getInstance().setScreen(parent);
                             } else {

@@ -72,7 +72,7 @@ public class ContractBookScreen extends Screen {
     private Button renameCancelBtn;
 
     public ContractBookScreen(ItemStack bookStack, InteractionHand hand) {
-        super(Component.literal("契约之书"));
+        super(Component.translatable("mct.screen.contract_book.title"));
         this.bookStack = bookStack;
         this.hand = hand;
         this.bookData = ContractBookItem.getData(bookStack);
@@ -83,7 +83,7 @@ public class ContractBookScreen extends Screen {
         super.init();
 
         // 搜索框
-        searchBox = new EditBox(font, 10, 46, 150, 16, Component.literal("搜索"));
+        searchBox = new EditBox(font, 10, 46, 150, 16, Component.translatable("mct.screen.search"));
         searchBox.setValue(searchText);
         searchBox.setResponder(text -> {
             searchText = text;
@@ -93,29 +93,29 @@ public class ContractBookScreen extends Screen {
 
         // 全部存入按钮
         btnStoreAll = addRenderableWidget(
-                Button.builder(Component.literal("全部存入"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)0, UUID.randomUUID(), Optional.empty(), hand))).pos(width - 80, 30).size(70, 20).build()
+                Button.builder(Component.translatable("mct.screen.store_all"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)0, UUID.randomUUID(), Optional.empty(), hand))).pos(width - 80, 30).size(70, 20).build()
         );
 
-// 全部取出按钮
+        // 全部取出按钮
         btnTakeAll = addRenderableWidget(
-                Button.builder(Component.literal("取出全部"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)1, UUID.randomUUID(), Optional.empty(), hand))).pos(width / 2 - 35, height - 30).size(70, 20).build()
+                Button.builder(Component.translatable("mct.screen.take_all"), btn -> PacketDistributor.sendToServer(new ModifyContractBookPayload((byte)1, UUID.randomUUID(), Optional.empty(), hand))).pos(width / 2 - 35, height - 30).size(70, 20).build()
         );
 
         // 重命名编辑框（初始隐藏）
-        renameEditBox = new EditBox(font, width / 2 - 80, height / 2 - 10, 160, 20, Component.literal("新名称"));
+        renameEditBox = new EditBox(font, width / 2 - 80, height / 2 - 10, 160, 20, Component.translatable("mct.screen.new_name"));
         renameEditBox.setVisible(false);
         addRenderableWidget(renameEditBox);
 
         // 重命名确认按钮
         renameConfirmBtn = addRenderableWidget(
-                Button.builder(Component.literal("确认"), btn -> confirmRename())
+                Button.builder(Component.translatable("mct.screen.enter"), btn -> confirmRename())
                         .pos(width / 2 - 85, height / 2 + 15).size(60, 20).build()
         );
         renameConfirmBtn.visible = false;
 
         // 重命名取消按钮
         renameCancelBtn = addRenderableWidget(
-                Button.builder(Component.literal("取消"), btn -> cancelRename())
+                Button.builder(Component.translatable("mct.screen.esc"), btn -> cancelRename())
                         .pos(width / 2 - 20, height / 2 + 15).size(60, 20).build()
         );
         renameCancelBtn.visible = false;
@@ -125,7 +125,7 @@ public class ContractBookScreen extends Screen {
 
         // 在 init() 末尾添加
         addRenderableWidget(
-                Button.builder(Component.literal("分工指南"), btn -> Minecraft.getInstance().setScreen(new ContractGuideScreen(this)))
+                Button.builder(Component.translatable("mct.screen.division_responsibilities_manual"), btn -> Minecraft.getInstance().setScreen(new ContractGuideScreen(this)))
                         .pos(10, height - 50) // 左下角
                         .size(60, 20)
                         .build()
@@ -190,7 +190,7 @@ public class ContractBookScreen extends Screen {
                 // 根据 displayAsActivated 创建按钮
                 if (displayAsActivated) {
                     // 激活中 → 取消激活按钮
-                    Button recallBtn = Button.builder(Component.literal("取消激活"), btn -> {
+                    Button recallBtn = Button.builder(Component.translatable("mct.screen.activate"), btn -> {
                         // 立即更新本地映射，不修改物品栈
                         pendingChanges.put(contractId, false);
                         PacketDistributor.sendToServer(new RecallLaborPayload(contractId, "servant_contract"));
@@ -201,7 +201,7 @@ public class ContractBookScreen extends Screen {
                     addRenderableWidget(recallBtn);
                 } else {
                     // 空闲 → 激活按钮
-                    Button activateBtn = Button.builder(Component.literal("激活"), btn -> {
+                    Button activateBtn = Button.builder(Component.translatable("mct.screen.deactivate"), btn -> {
                         // 立即更新本地映射
                         pendingChanges.put(contractId, true);
                         // 打开会话选择
@@ -218,7 +218,7 @@ public class ContractBookScreen extends Screen {
                     addRenderableWidget(activateBtn);
                 }
 
-                Button renameBtn = Button.builder(Component.literal("重命名"), btn -> {
+                Button renameBtn = Button.builder(Component.translatable("mct.screen.rename"), btn -> {
                     isRenaming = true;
                     renamingEntry = entry;
                     renameEditBox.setValue(entry.servantName());
@@ -232,7 +232,7 @@ public class ContractBookScreen extends Screen {
                 addRenderableWidget(renameBtn);
 
                 addRenderableWidget(
-                        Button.builder(Component.literal("刷新"), btn -> rebuildFilteredList())
+                        Button.builder(Component.translatable("mct.screen.refresh"), btn -> rebuildFilteredList())
                                 .pos(width - 50, height - 30).size(40, 20).build()
                 );
 
@@ -440,7 +440,7 @@ public class ContractBookScreen extends Screen {
         if (player == null) return;
 
         if (entry.dispatchedSessionId().isPresent()) {
-            player.sendSystemMessage(Component.literal("该仆从正在工作中，请先召回"));
+            player.sendSystemMessage(Component.translatable("mct.message.contract_already_active"));
             return;
         }
 

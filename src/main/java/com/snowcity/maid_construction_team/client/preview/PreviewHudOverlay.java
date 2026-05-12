@@ -39,7 +39,7 @@ public class PreviewHudOverlay {
 
         // 当前工具
         PlacementPreviewTool tool = PreviewManager.getCurrentTool();
-        lines.add(Component.literal("工具: " + tool.getDisplayName()).withStyle(ChatFormatting.YELLOW));
+        lines.add(Component.translatable("工具: " + tool.getDisplayName()).withStyle(ChatFormatting.YELLOW));
 
         // 锚点坐标
         lines.add(Component.literal("锚点: " + ctx.getAnchor().toShortString()));
